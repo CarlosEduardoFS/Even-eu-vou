@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<meta charset="ISO-8859-1">
+		<title>Lista de pessoas</title>
+		
+		<style>
+			div.centralizar
+			{
+				text-align: center;
+			}
+		</style>
+		
+	</head>
+	
+	<body class="container mt-4" style="background-color:	#483D8B;">
+		
+		<div class="centralizar">
+			<h1><font color="#FFFFFF">Lista de pessoas </font></h1>
+			<br>
+			<br>
+		</div>
+		
+		<br>
+		
+		<table class="table" style="background-color:#FFFFFF;">
+		
+			<thead> 
+				<tr>
+					<th>Nome</th>
+					<th>Idade</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				
+				<tr th:each="pessoa:${lista}"> 
+					<td th:text="${pessoa.nomePessoa}"></td>
+					<td th:text="${pessoa.idade}"></td>
+					<td>
+						
+						<a class="btn btn-primary" >Update</a>
+						<a class="btn btn-danger" >Delete</a> 
+					</td>
+					
+				</tr>
+			</tbody>
+			
+		</table>
+
+	</body>
+</html>
