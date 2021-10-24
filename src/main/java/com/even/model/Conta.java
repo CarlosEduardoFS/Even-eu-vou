@@ -18,8 +18,10 @@ public class Conta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nomeUsario;
-	private String email;
-	private String senha;
+	
+	@OneToOne
+	@JoinColumn
+	private Login login;
 	
 	@OneToOne
 	@JoinColumn
@@ -35,11 +37,9 @@ public class Conta {
 		
 	}
 	
-	public Conta(Integer id, String nomeUsario, String email, String senha, Pessoa informacoesUsuario, List<Evento> eventos) {
+	public Conta(Integer id, String nomeUsario, Pessoa informacoesUsuario, List<Evento> eventos) {
 		this.id = id;
 		this.nomeUsario = nomeUsario;
-		this.email = email;
-		this.senha = senha;
 		this.informacoesUsuario = informacoesUsuario;
 		this.eventos = eventos;
 	}
@@ -60,20 +60,12 @@ public class Conta {
 		this.nomeUsario = nomeUsario;
 	}
 
-	public String getEmail() {
-		return email;
+	public Login getLogin() {
+		return login;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setLogin(Login login) {
+		this.login = login;
 	}
 
 	public Pessoa getInformacoesUsuario() {

@@ -90,7 +90,7 @@ public class Evento {
 		sb.append("Hora: "+hora+"/n");
 		sb.append("Descrição: "+descricao+"\n");
 		sb.append("Organizador: "+organizador.getNomeUsario());
-		sb.append("Contato: "+organizador.getEmail());
+		sb.append("Contato: "+organizador.getLogin().getEmail());
 		
 		return sb.toString();
 		
