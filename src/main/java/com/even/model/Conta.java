@@ -3,6 +3,7 @@ package com.even.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,15 +18,11 @@ public class Conta {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String nomeUsario;
+	private String nomeUsuario;
 	
-	@OneToOne
+	@OneToOne (cascade = CascadeType.PERSIST)
 	@JoinColumn
 	private Login login;
-	
-	@OneToOne
-	@JoinColumn
-	private Pessoa informacoesUsuario;
 	
 	@OneToMany
 	@JoinColumn
@@ -34,14 +31,15 @@ public class Conta {
 	public Conta() {
 		
 		eventos = new LinkedList<>();
+		login = new Login();
 		
 	}
 	
-	public Conta(Integer id, String nomeUsario, Pessoa informacoesUsuario, List<Evento> eventos) {
+	public Conta(Integer id, String nomeUsario, List<Evento> eventos, Login login) {
 		this.id = id;
-		this.nomeUsario = nomeUsario;
-		this.informacoesUsuario = informacoesUsuario;
+		this.nomeUsuario = nomeUsario;
 		this.eventos = eventos;
+		this.login = login;
 	}
 
 	public Integer getId() {
@@ -52,12 +50,12 @@ public class Conta {
 		this.id = id;
 	}
 
-	public String getNomeUsario() {
-		return nomeUsario;
+	public String getNomeUsuario() {
+		return nomeUsuario;
 	}
 
-	public void setNomeUsario(String nomeUsario) {
-		this.nomeUsario = nomeUsario;
+	public void setNomeUsuario(String nomeUsario) {
+		this.nomeUsuario = nomeUsario;
 	}
 
 	public Login getLogin() {
@@ -66,14 +64,6 @@ public class Conta {
 
 	public void setLogin(Login login) {
 		this.login = login;
-	}
-
-	public Pessoa getInformacoesUsuario() {
-		return informacoesUsuario;
-	}
-
-	public void setInformacoesUsuario(Pessoa informacoesUsuario) {
-		this.informacoesUsuario = informacoesUsuario;
 	}
 
 	public List<Evento> getEventos() {

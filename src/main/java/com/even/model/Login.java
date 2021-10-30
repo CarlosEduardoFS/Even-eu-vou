@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Login {
+public class Login implements Comparable<Login> {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -44,6 +44,22 @@ public class Login {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	@Override
+	public int compareTo(Login o) {
+		
+		if ( email.compareTo(o.getEmail())> 0) {
+			
+			return 1;
+			
+		}else if (email.compareTo(o.getEmail()) == 0) {
+			
+			return 0;
+		}else {
+			
+			return -1;
+		}
 	}
 
 }
