@@ -21,6 +21,14 @@ public class ControllerLogin {
 	@Autowired
 	ServicoLogin banco;
 	
+	@PostMapping("/salvarLogin")
+	public String salvarLogin(@ModelAttribute Login login) {
+		
+		banco.saveLogin(login);
+		
+		return "login";
+	}
+	
 	@GetMapping("/login")
 	public ModelAndView Login() {
 		
@@ -46,7 +54,7 @@ public class ControllerLogin {
 			Login loginBanco = logins.get(posicao);
 			
 			if (isLogin(loginBanco, login))
-				return "entrou";
+				return "telaUsuario";
 			
 		}
 		
@@ -55,11 +63,59 @@ public class ControllerLogin {
 	
 	private boolean isLogin(Login loginBanco, Login loginInformado) {
 		
-		if (loginBanco.getEmail().equals(loginInformado.getEmail()) && loginBanco.getSenha().equals(loginInformado.getSenha()))
+		if (verificaEmail(loginBanco, loginInformado) && loginBanco.getSenha().equals(loginInformado.getSenha()))
 			return true;
 		
 		return false;
 		
+	}
+	
+	@GetMapping("/atualizarSenha")
+	public ModelAndView atualizarSenha() {
+		
+		ModelAndView mv = new ModelAndView("util/alterarSenha");
+		Login login = new Login();
+		mv.addObject("login", login);
+		
+		return mv;
+	}
+	
+	@PostMapping("/verificaEmail")
+	public ModelAndView atualizarSenha(@ModelAttribute Login login) {
+		
+		List<Login> logins = banco.listarLogin();
+		
+		
+		Collections.sort(logins);
+		
+		int posicao = Collections.binarySearch(logins, login, null);
+		
+		if (posicao >= 0) {
+			
+			Login loginBanco = logins.get(posicao);
+			
+			if (verificaEmail(loginBanco, login)) {
+				ModelAndView mv = new ModelAndView("util/altSenha");
+				login.setId(loginBanco.getId());
+				mv.addObject("login", login);
+				return mv;
+			}
+
+		}
+		ModelAndView mv = new ModelAndView("util/atualizarSenha");
+		
+		
+		return mv;
+	}
+
+	private boolean verificaEmail(Login loginBanco,Login loginInformado) {
+		
+		if (loginBanco.getEmail().equals(loginInformado.getEmail())) {
+			return true;
+			
+		}
+		
+		return false;
 	}
 	
 	
