@@ -8,6 +8,7 @@
 		<!-- JavaScript Bundle with Popper -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 		<style>
+		
 			.limite {
 				width: 100%;
 				margin: 0 auto;
@@ -31,37 +32,47 @@
 				background: -moz-linear-gradient(-135deg, #000000, #4158d0);
 				background: linear-gradient(-135deg, #000000, #4158d0);
 			}
+
+	      .loginPara {
+				  width: 90px;
+				}
+	      .loginParaTitulo {
+			font-family: Poppins-Bold;
+			font-size: 24px;
+			color: #333333;
+			line-height: 1.2;
+			text-align: center;
+				
+			width: 100%;
+			display: block;
+			padding-bottom: 54px;
+			}
 			
 			.wlogin {
-			  width: 500px;
+			  width: 30%;;
 			  background: #fff;
 			  border-radius: 50px;
 			  overflow: hidden;
-			
-			  display: -webkit-box;
-			  display: -webkit-flex;
-			  display: -moz-box;
-			  display: -ms-flexbox;
 			  display: flex;
 			  flex-wrap: wrap;
-			  justify-content: space-between;
-			  padding: 60px 95px 60px 95px;
+			  justify-content: center;
+			  padding: 90px 95px 90px 95px;
 			}
 			
 			.form-control {
-            display: block;
-            width: 100%;
-            padding: 0.5rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.25;
-            color: #495057;
-            background-color: #fff;
-            background-image: none;
-            background-clip: padding-box;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 0.25rem;
-            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-            }
+	            display: block;
+	            width: 100%;
+	            padding: 0.5rem 0.75rem;
+	            font-size: 1rem;
+	            line-height: 1.25;
+	            color: #495057;
+	            background-color: #fff;
+	            background-image: none;
+	            background-clip: padding-box;
+	            border: 1px solid rgba(0, 0, 0, 0.15);
+	            border-radius: 0.25rem;
+	            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+	      		}
 
             .form-control {
                 display: block;
@@ -76,6 +87,17 @@
                 border: 1px solid rgba(0, 0, 0, 0.15);
                 border-radius: 0.25rem;
                 transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            }
+            .conteinerParaBtn {
+              width: 100%;
+              display: -webkit-box;
+              display: -webkit-flex;
+              display: -moz-box;
+              display: -ms-flexbox;
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              padding-top: 20px;
             }
 
             .btn {
@@ -109,15 +131,15 @@
 	
 	</head>
 	<body>
-		<div class="limiter">
+		<div class="limite">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
               <span class="navbar-text">
-               <div class="text">
+               <span class="text">
                 __________________
-               </div>      
+               </span>      
               </span>
                 <a class="navbar-brand" href="#">Even: eu vou</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Alterna navegaÃ§Ã£o">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Alterna navegação">
                   <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="#navbarNavAltMarkup">
@@ -131,9 +153,20 @@
                   Aqui voc&ecirc; cria seus melhores eventos         
                  </span>
               </nav>
-			<div class="conteiner">
-				
-			</div>
+         </div>
+		<div class="conteiner">
+        	<div class="wlogin">
+				<form class="LoginPara" action="#">
+					<span class="loginParaTitulo js-tilt">
+						Agora &eacute; a hora!
+					</span>
+					<div class="conteinerParaBtn">
+						<button class="btn btn-outline-success">
+							Criar evento
+						</button>
+					</div>
+				</form>
+           </div>
 		</div>
 	</body>
 </html>
