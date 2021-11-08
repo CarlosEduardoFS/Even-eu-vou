@@ -145,7 +145,7 @@
                 <div class="collapse navbar-collapse" id="#navbarNavAltMarkup">
                   <div class="navbar-nav">
                     <a class="nav-item nav-link active" href="#">P&aacute;gina inicial <span class="sr-only"></span></a>
-                    <a class="nav-item nav-link" href="#">Criar evento</a>
+                    <a class="nav-item nav-link" th:href="@{cadastroEvento/{id}(id=${conta.id})}">Criar evento</a>
                     <a class="nav-item nav-link" href="#">Meus eventos</a>
                   </div>
                 </div>
@@ -156,16 +156,12 @@
          </div>
 		<div class="conteiner">
         	<div class="wlogin">
-				<form class="LoginPara" action="#">
 					<span class="loginParaTitulo js-tilt">
 						Agora &eacute; a hora!
 					</span>
-					<div class="conteinerParaBtn">
-						<button class="btn btn-outline-success">
-							Criar evento
-						</button>
+					<div class="conteinerParaBtn" >
+						<a class="btn btn-outline-success" th:href="@{cadastroEvento/{id}(id=${conta.id})}">Criar</a>
 					</div>
-				</form>
            </div>
 		</div>
 	</body>

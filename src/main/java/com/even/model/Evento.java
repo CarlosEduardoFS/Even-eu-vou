@@ -3,6 +3,7 @@ package com.even.model;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,18 +20,27 @@ public class Evento {
 	private String nomeEvento;
 	private Date dataEvento;
 	private String descricao;
+	private Boolean convidadosLevamProdutos;
 	
 	@OneToOne
 	@JoinColumn
 	private Conta organizador;
 	
-	public Evento() {}
+	@OneToOne (cascade = CascadeType.PERSIST)
+	@JoinColumn
+	private InformacoesTecnicasEvento informacoes;
 	
-	public Evento(Integer id, String nomeEvento, Date dataEvento, String descricao) {
+	public Evento() {
+		informacoes = new InformacoesTecnicasEvento();
+	}
+	
+	public Evento(Integer id, String nomeEvento, Date dataEvento, String descricao,  InformacoesTecnicasEvento informacoes,Boolean convidadosLevamProdutos) {
 		this.id = id;
 		this.nomeEvento = nomeEvento;
 		this.dataEvento = dataEvento;
 		this.descricao = descricao;
+		this.informacoes = informacoes;
+		this.convidadosLevamProdutos = convidadosLevamProdutos;
 	}
 
 	public Integer getId() {
@@ -73,6 +83,22 @@ public class Evento {
 		this.organizador = organizador;
 	}
 	
+	public InformacoesTecnicasEvento getInformacoes() {
+		return informacoes;
+	}
+
+	public void setInformacoes(InformacoesTecnicasEvento informacoes) {
+		this.informacoes = informacoes;
+	}
+	
+	public Boolean getConvidadosLevamProdutos() {
+		return convidadosLevamProdutos;
+	}
+
+	public void setConvidadosLevamProdutos(Boolean convidadosLevamProdutos) {
+		this.convidadosLevamProdutos = convidadosLevamProdutos;
+	}
+
 	public String todasInformacoes() {
 		
 		Calendar calendario = Calendar.getInstance();

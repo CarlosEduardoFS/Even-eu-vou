@@ -24,7 +24,7 @@ public class Conta {
 	@JoinColumn
 	private Login login;
 	
-	@OneToMany
+	@OneToMany (cascade = CascadeType.PERSIST)
 	@JoinColumn
 	private List<Evento> eventos;
 	
@@ -73,5 +73,17 @@ public class Conta {
 	public void setEventos(List<Evento> eventos) {
 		this.eventos = eventos;
 	} 
+	
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("\nNome usuario: "+nomeUsuario+"\n");
+		sb.append("Email: "+login.getEmail());
+		sb.append("Senha: "+login.getSenha());
+		
+		return sb.toString();
+		
+	}
 
 }

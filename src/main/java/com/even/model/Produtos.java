@@ -56,6 +56,10 @@ public class Produtos {
 		this.quantidadeConfirmada = quantidadeConfirmada;
 	}
 	
+	public boolean atingiuLimitie() {
+		return quantidadeConfirmada == quantidade;
+	}
+
 	public String todasInformacoes() {
 		
 		StringBuilder sb = new StringBuilder();

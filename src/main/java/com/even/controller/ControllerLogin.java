@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.even.model.Conta;
 import com.even.model.Login;
+import com.even.service.ServicoConta;
 import com.even.service.ServicoLogin;
 
 @Controller
@@ -20,6 +22,9 @@ public class ControllerLogin {
 
 	@Autowired
 	ServicoLogin banco;
+	
+	@Autowired
+	ServicoConta bancoConta;
 	
 	@PostMapping("/salvarLogin")
 	public String salvarLogin(@ModelAttribute Login login) {
@@ -41,7 +46,7 @@ public class ControllerLogin {
 	}
 	
 	@PostMapping("/verificaConta")
-	public String verificaConta(@ModelAttribute Login login) {
+	public ModelAndView verificaConta(@ModelAttribute Login login) {
 		
 		List<Login> logins = banco.listarLogin();
 		
@@ -53,12 +58,38 @@ public class ControllerLogin {
 			
 			Login loginBanco = logins.get(posicao);
 			
-			if (isLogin(loginBanco, login))
-				return "telaUsuario";
-			
+			if (isLogin(loginBanco, login)) {
+				Conta contaLog = contaLogada(loginBanco.getId());
+				
+				ModelAndView mv = new ModelAndView("telaUsuario");
+				mv.addObject("conta", contaLog);
+						
+				return mv;
+				
+			}	
 		}
 		
-		return "login";
+		ModelAndView mv = new ModelAndView("login");
+		return mv;
+	}
+	
+	private Conta contaLogada(int id) {
+		
+		Conta conta = new Conta();
+		
+		for (Conta conta2 : bancoConta.listarConta()) {
+			
+			Login login2 = conta2.getLogin();
+			
+			if (login2.getId() == id) {
+				
+				conta = conta2;
+				
+			}
+		}
+		
+		return conta;
+		
 	}
 	
 	private boolean isLogin(Login loginBanco, Login loginInformado) {
