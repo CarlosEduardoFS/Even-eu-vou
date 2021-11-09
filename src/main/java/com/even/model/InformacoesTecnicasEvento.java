@@ -65,7 +65,7 @@ public class InformacoesTecnicasEvento {
 		return quantidadeMesas;
 	}
 
-	private void setQuantidadeMesas() {
+	public void setQuantidadeMesas() {
 		this.quantidadeMesas = (Long)quantidadePessoas/4;
 	}
 
@@ -74,7 +74,7 @@ public class InformacoesTecnicasEvento {
 		return quantidadeCadeiras;
 	}
 
-	private void setQuantidadeCadeiras() {
+	public void setQuantidadeCadeiras() {
 		this.quantidadeCadeiras = quantidadePessoas + 10;
 	}
 

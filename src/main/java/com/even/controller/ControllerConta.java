@@ -57,8 +57,8 @@ public class ControllerConta {
 		
 	}
 	
-	@GetMapping("/cadastroEvento/{id}")
-	public ModelAndView criarEvento(@PathVariable("id") Integer id) {
+	@GetMapping("/telaUsuario/{id}")
+	public String telaUsuario(@PathVariable("id") Integer id) {
 		
 		Conta conta = new Conta();
 		List<Conta> list = banco.listarConta();
@@ -67,10 +67,25 @@ public class ControllerConta {
 		contaLogada = new Conta();
 		contaLogada = conta;
 		
+		System.out.println(contaLogada.toString());
+		
+		return "telaUsuario";
+	}
+	
+	@GetMapping("/telaUso")
+	public String telaUsuario() {
+		
+		return "telaUsuario";
+	}
+	
+	
+	@GetMapping("/cadastroEvento")
+	public ModelAndView criarEvento() {
+		
 		ModelAndView mv = new ModelAndView("cadastroEvento");
 		Evento evento = new Evento();
 		
-		evento.setOrganizador(conta);
+		evento.setOrganizador(contaLogada);
 		mv.addObject("evento", evento);
 		
 		return mv;
@@ -78,15 +93,13 @@ public class ControllerConta {
 	}
 	
 	@PostMapping("/cadastroEvento")
-	public String salvarEvento(@ModelAttribute Evento evento) {
+	public ModelAndView salvarEvento(@ModelAttribute Evento evento) {
 		
+		ModelAndView mv = new ModelAndView("redirecionamentos/redireInformacoes");
 		
 		List<Conta> list = banco.listarConta();
 		int idConta = evento.getOrganizador().getId();
 		Conta conta = list.stream().filter(x -> x.getId() == idConta).findFirst().orElse(null);
-		
-		//List<Evento> listEve = new LinkedList<>();
-		//listEve.add(evento);
 		
 		bancoEvento.saveEvento(evento);
 		
@@ -102,42 +115,85 @@ public class ControllerConta {
 		
 		conta.setEventos(listEve);
 		
-		banco.saveConta(conta);
+		banco.saveConta(conta);	
 		
+		Evento evento2 = new Evento();
+		evento2.setId(evento.getId());
 		
+		mv.addObject("evento", evento2);
 		
-		
-		return "cadastroProduto";
+		return mv;
 		
 	}
 	
-	@GetMapping("/cadastroProduto")
-	public ModelAndView cadastroProduto() {
+	@GetMapping("/cadastroProduto/{id}")
+	public ModelAndView cadastroProduto(@PathVariable("id") Integer id) {
 		
 		ModelAndView mv = new ModelAndView("cadastroProduto");
+		
+		List<Evento> list = bancoEvento.listarEvento();
+		List<Produtos> list2 = new LinkedList<>();
+		
 		Produtos produto = new Produtos();
-		mv.addObject("produto", produto);
-		mv.addObject("produtos", bancoProduto.listarProdutos());
+		Evento evento = list.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+		produto.setEvento(evento);
+		
+		for (Produtos produ : bancoProduto.listarProdutos()) {
+			
+			if(produ.getEvento().getId() == produto.getEvento().getId()) {
+				
+				list2.add(produ);
+				
+			}
+			
+		}
+		
+		
+		mv.addObject("produto1", produto);
+		mv.addObject("produtos", list2);
 
 		return mv;
 	}
 	
 	@PostMapping("/salvarProduto")
-	public String salvarProduto(@ModelAttribute Produtos produto) {
+	public ModelAndView salvarProduto(@ModelAttribute Produtos produto) {
 		
+		ModelAndView mv = new ModelAndView("cadastroProduto");
+		
+		List<Evento> list = bancoEvento.listarEvento();
 		List<Produtos> produtos = new LinkedList<>();
-		
-		bancoProduto.saveProdutos(produto);
+		List<Produtos> list2 = new LinkedList<>();
 		
 		for (Produtos produtos2 : bancoProduto.listarProdutos()) {
 			
+			if ((produto.getEvento().getId() == produtos2.getEvento().getId()) && (produtos2 != null)) {
+				produtos.add(produtos2);
+			}	
 			
+		}
+		produtos.add(produto);
+		
+		bancoProduto.saveProdutos(produto);
+		
+		Produtos produto2 = new Produtos();
+		Evento evento = list.stream().filter(x -> x.getId() == produto.getEvento().getId()).findFirst().orElse(null);
+		produto2.setEvento(evento);
+		
+
+		for (Produtos produ : bancoProduto.listarProdutos()) {
+			
+			if(produ.getEvento().getId() == produto.getEvento().getId()) {
+				
+				list2.add(produ);
+				
+			}
 			
 		}
 		
+		mv.addObject("produto1", produto);
+		mv.addObject("produtos",list2);
 		
-		
-		return "cadastroProduto";
+		return mv;
 	}
 	
 

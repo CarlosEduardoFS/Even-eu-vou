@@ -61,7 +61,7 @@ public class ControllerLogin {
 			if (isLogin(loginBanco, login)) {
 				Conta contaLog = contaLogada(loginBanco.getId());
 				
-				ModelAndView mv = new ModelAndView("telaUsuario");
+				ModelAndView mv = new ModelAndView("redirecionamentos/redireTelaUsuario");
 				mv.addObject("conta", contaLog);
 						
 				return mv;

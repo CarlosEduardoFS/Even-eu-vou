@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Produtos {
@@ -15,13 +17,20 @@ public class Produtos {
 	private Integer quantidade;
 	private Integer quantidadeConfirmada;
 	
-	public Produtos() {}
+	@OneToOne
+	@JoinColumn
+	private Evento evento;
 	
-	public Produtos(Integer id, String nomeProduto, Integer quantidade, Integer quantidadeConfirmada) {
+	public Produtos() {
+		evento = new Evento();
+	}
+	
+	public Produtos(Integer id, String nomeProduto, Integer quantidade, Integer quantidadeConfirmada,Evento evento) {
 		this.id = id;
 		this.nomeProduto = nomeProduto;
 		this.quantidade = quantidade;
 		this.quantidadeConfirmada = quantidadeConfirmada;
+		this.evento = evento;
 	}
 
 	public Integer getId() {
@@ -58,6 +67,14 @@ public class Produtos {
 	
 	public boolean atingiuLimitie() {
 		return quantidadeConfirmada == quantidade;
+	}
+	
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
 	}
 
 	public String todasInformacoes() {

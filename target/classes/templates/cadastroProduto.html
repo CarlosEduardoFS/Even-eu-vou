@@ -257,10 +257,12 @@
          </div>
 		<div class="conteiner">
         	<div class="wlogin">
-				<form class="LoginPara" action="/salvarProduto" method="POST" th:object="${produto1}">
-					<span class="loginParaTitulo js-tilt">
+        		<span class="loginParaTitulo js-tilt">
 						Cadastre os produtos
-					</span>
+						<a class="btn btn-outline-success" href="/telaUso">Finalizar</a>
+				</span>
+				<form class="LoginPara" action="/salvarProduto" method="POST" th:object="${produto1}">
+					<input type="hidden" th:field="*{evento}">
 					
 					<div class="wInput">
 						<input class="input" type="text" name="nomeProduto" placeholder="Nome do produto" autocomplete="off" required>
