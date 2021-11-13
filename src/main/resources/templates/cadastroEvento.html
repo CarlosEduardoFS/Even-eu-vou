@@ -273,9 +273,17 @@
 						<span class="focoInput"></span>
 					</div>
 					<div class="wInput">
-						<input class="input" type="text" name="InformacoesTecnicasEvento.quantidadePessoas" placeholder="Quantidade de pessoas" autocomplete="off"required>
+						<input class="input" type="text" name="informacoes.quantidadePessoas" placeholder="Quantidade de pessoas" autocomplete="off"required>
 						<span class="focoInput"></span>
 					</div>
+					<div class="wInput">
+						<br>
+						<select class="form-select form-select-sm" aria-label=".form-select-sm" name="precisaDeProdutos">
+							<option selected>Voc&ecirc; vai disponibilizar algum produto? </option>
+							<option value="true">Sim</option>
+							<option value="false">N&atilde;o </option>
+						  </select>
+					</div >
 					<div class="wInput">
 						<br>
 						<select class="form-select form-select-sm" aria-label=".form-select-sm" name="convidadosLevamProdutos">
@@ -287,7 +295,7 @@
 					<div class="mb-3">
 						<br>
 						<label for="descricao" class="form-label">Descri&ccedil;&atilde;o do evento</label>
-						<textarea class="form-control" id="descricao" rows="3"></textarea>
+						<textarea class="form-control" name ="descricao" id="descricao" rows="3"></textarea>
 					</div>
 
 					<div class="conteinerParaBtn">

@@ -49,7 +49,7 @@
 			}
 			
 			.wlogin {
-			  width: 30%;;
+			  width: 50%;;
 			  background: #fff;
 			  border-radius: 50px;
 			  overflow: hidden;
@@ -127,6 +127,107 @@
               color:#fff;
 
             }
+
+			.wInput {
+			  position: relative;
+			  width: 100%;
+			  z-index: 1;
+			  margin-bottom: 10px;
+			}
+			
+			.input {
+			  font-family: Poppins-Medium;
+			  font-size: 15px;
+			  line-height: 1.5;
+			  color: #666666;
+			
+			  display: block;
+			  width: 100%;
+			  background: #e6e6e6;
+			  height: 50px;
+			  border-radius: 25px;
+			  padding: 0 10px 0 10px;
+			}
+			
+			.focoInput {
+			  display: block;
+			  position: absolute;
+			  border-radius: 25px;
+			  bottom: 0;
+			  left: 0;
+			  z-index: -1;
+			  width: 100%;
+			  height: 100%;
+			  box-shadow: 0px 0px 0px 0px;
+			  color: #4158d0;
+			}
+			
+			.input1Foco + .focoInput {
+			  -webkit-animation: anim-shadow 0.5s ease-in-out forwards;
+			  animation: anim-shadow 0.5s ease-in-out forwards;
+			}
+			
+			.simboloInput {
+			  font-size: 15px;
+			
+			  display: -webkit-box;
+			  display: -webkit-flex;
+			  display: -moz-box;
+			  display: -ms-flexbox;
+			  display: flex;
+			  align-items: center;
+			  position: absolute;
+			  border-radius: 25px;
+			  bottom: 0;
+			  left: 0;
+			  width: 100%;
+			  height: 100%;
+			  padding-left: 35px;
+			  pointer-events: none;
+			  color: #666666;
+			
+			  -webkit-transition: all 0.4s;
+			  -o-transition: all 0.4s;
+			  -moz-transition: all 0.4s;
+			  transition: all 0.4s;
+			}
+
+			.conteinerParaBtn {
+              width: 100%;
+              display: -webkit-box;
+              display: -webkit-flex;
+              display: -moz-box;
+              display: -ms-flexbox;
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              padding-top: 20px;
+            }
+
+            .btn {
+                display: inline-block;
+                font-weight: normal;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                        user-select: none;
+                border: 1px solid transparent;
+                padding: 0.5rem 0.5rem;
+                font-size: 1rem;
+                line-height: 1.25;
+                border-radius: 0.25rem;
+                transition: all 0.15s ease-in-out;
+            }
+            .btn-outline-success {
+                color: #4158d0;
+                background-color: transparent;
+                background-image: none;
+                border-color: #4158d0;
+            }
+
 		</style>
 	
 	</head>
@@ -139,13 +240,13 @@
                </span>      
               </span>
                 <a class="navbar-brand" href="#">Even: eu vou</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Alterna navegação">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Alterna navegaï¿½ï¿½o">
                   <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="#navbarNavAltMarkup">
                   <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#">P&aacute;gina inicial <span class="sr-only"></span></a>
-                    <a class="nav-item nav-link" href="/cadastroEvento">Criar evento</a>
+                    <a class="nav-item nav-link" href="#">P&aacute;gina inicial <span class="sr-only"></span></a>
+                    <a class="nav-item nav-link active" href="/criarEvento">Criar evento</a>
                     <a class="nav-item nav-link" href="/listaEventos">Meus eventos</a>
                   </div>
                 </div>
@@ -154,14 +255,34 @@
                  </span>
               </nav>
          </div>
+        <br>
+        <br>
 		<div class="conteiner">
         	<div class="wlogin">
-					<span class="loginParaTitulo js-tilt">
-						Agora &eacute; a hora!
-					</span>
-					<div class="conteinerParaBtn" >
-						<a class="btn btn-outline-success" href="/cadastroEvento">Criar</a>
-					</div>
+        		
+				<table class="table">
+		
+					<thead> 
+						<tr>
+							<th>Eventos</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						
+						<tr th:each="evento:${eventos}"> 
+							
+							<td>
+								<div class="conteinerParaBtn">
+									<a class="btn btn-outline-success" th:text="${evento.nomeEvento}"  th:href="@{paginaEvento/{id}(id=${evento.id})}"></a>
+								</div>
+								
+							</td>
+							
+						</tr>
+					</tbody>
+				
+			</table>
            </div>
 		</div>
 	</body>

@@ -61,7 +61,6 @@ public class InformacoesTecnicasEvento {
 	}
 
 	public Long getQuantidadeMesas() {
-		setQuantidadeMesas();
 		return quantidadeMesas;
 	}
 
@@ -70,7 +69,6 @@ public class InformacoesTecnicasEvento {
 	}
 
 	public Long getQuantidadeCadeiras() {
-		setQuantidadeCadeiras();
 		return quantidadeCadeiras;
 	}
 

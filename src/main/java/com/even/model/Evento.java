@@ -21,6 +21,7 @@ public class Evento {
 	private Date dataEvento;
 	private String descricao;
 	private Boolean convidadosLevamProdutos;
+	private Boolean precisaDeProdutos;
 	
 	@OneToOne
 	@JoinColumn
@@ -34,13 +35,14 @@ public class Evento {
 		informacoes = new InformacoesTecnicasEvento();
 	}
 	
-	public Evento(Integer id, String nomeEvento, Date dataEvento, String descricao,  InformacoesTecnicasEvento informacoes,Boolean convidadosLevamProdutos) {
+	public Evento(Integer id, String nomeEvento, Date dataEvento, String descricao,  InformacoesTecnicasEvento informacoes,Boolean convidadosLevamProdutos, Boolean precisaDeProdutos) {
 		this.id = id;
 		this.nomeEvento = nomeEvento;
 		this.dataEvento = dataEvento;
 		this.descricao = descricao;
 		this.informacoes = informacoes;
 		this.convidadosLevamProdutos = convidadosLevamProdutos;
+		this.precisaDeProdutos = precisaDeProdutos;
 	}
 
 	public Integer getId() {
@@ -97,6 +99,14 @@ public class Evento {
 
 	public void setConvidadosLevamProdutos(Boolean convidadosLevamProdutos) {
 		this.convidadosLevamProdutos = convidadosLevamProdutos;
+	}
+
+	public Boolean getPrecisaDeProdutos() {
+		return precisaDeProdutos;
+	}
+
+	public void setPrecisaDeProdutos(Boolean precisaDeProdutos) {
+		this.precisaDeProdutos = precisaDeProdutos;
 	}
 
 	public String todasInformacoes() {

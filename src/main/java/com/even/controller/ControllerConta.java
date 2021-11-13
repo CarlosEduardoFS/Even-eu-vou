@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.even.model.Conta;
 import com.even.model.Evento;
+import com.even.model.InformacoesTecnicasEvento;
 import com.even.model.Produtos;
 import com.even.service.ServicoConta;
 import com.even.service.ServicoEvento;
@@ -97,6 +98,12 @@ public class ControllerConta {
 		
 		ModelAndView mv = new ModelAndView("redirecionamentos/redireInformacoes");
 		
+		InformacoesTecnicasEvento informacoes = evento.getInformacoes();
+		
+		informacoes.setQuantidadeCadeiras();
+		informacoes.setQuantidadeMesas();
+		evento.setInformacoes(informacoes);
+		
 		List<Conta> list = banco.listarConta();
 		int idConta = evento.getOrganizador().getId();
 		Conta conta = list.stream().filter(x -> x.getId() == idConta).findFirst().orElse(null);
@@ -117,13 +124,18 @@ public class ControllerConta {
 		
 		banco.saveConta(conta);	
 		
-		Evento evento2 = new Evento();
-		evento2.setId(evento.getId());
+		if (evento.getConvidadosLevamProdutos() || evento.getPrecisaDeProdutos()) {
 		
-		mv.addObject("evento", evento2);
+			Evento evento2 = new Evento();
+			evento2.setId(evento.getId());
+			
+			mv.addObject("evento", evento2);
+			
+			return mv;
+		}
 		
+		mv.setViewName("telaUsuario");
 		return mv;
-		
 	}
 	
 	@GetMapping("/cadastroProduto/{id}")
@@ -136,23 +148,26 @@ public class ControllerConta {
 		
 		Produtos produto = new Produtos();
 		Evento evento = list.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+		
+			
 		produto.setEvento(evento);
-		
+			
 		for (Produtos produ : bancoProduto.listarProdutos()) {
-			
+				
 			if(produ.getEvento().getId() == produto.getEvento().getId()) {
-				
+					
 				list2.add(produ);
-				
+					
 			}
-			
+				
 		}
-		
-		
+			
+			
 		mv.addObject("produto1", produto);
 		mv.addObject("produtos", list2);
 
 		return mv;
+		
 	}
 	
 	@PostMapping("/salvarProduto")
@@ -194,6 +209,71 @@ public class ControllerConta {
 		mv.addObject("produtos",list2);
 		
 		return mv;
+	}
+	
+	@GetMapping("/listaEventos")
+	public ModelAndView listarEventos() {
+		
+		ModelAndView mv = new ModelAndView("listarEventos");
+		
+		List<Evento> lista = bancoEvento.listarEvento();
+		List<Evento> lista2 = new LinkedList<>();
+		
+		for (Evento eve : lista) {
+			
+			if (contaLogada.getId() == eve.getOrganizador().getId()) {
+				
+				lista2.add(eve);
+				
+			}
+			
+		}
+		
+		
+		mv.addObject("eventos", lista2);
+		
+		return mv;
+		
+	}
+	
+	public List<Produtos> litaProdutosEvento (Integer id){
+		
+		List<Produtos> lista2 = new LinkedList<>();
+		
+		for (Produtos produ : bancoProduto.listarProdutos()) {
+			
+			if(produ.getEvento().getId() == id) {
+				
+				lista2.add(produ);
+				
+			}
+			
+		}
+		
+		return lista2;
+	}
+	
+	@GetMapping("/paginaEvento/{id}")
+	public ModelAndView paginaEvento (@PathVariable("id") Integer id) {
+		
+		ModelAndView mv = new ModelAndView("paginaEvento");
+		
+		List<Evento> lista = bancoEvento.listarEvento();
+		
+		Evento evento = lista.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+		
+		List<Produtos> listProdutos = litaProdutosEvento(evento.getId());
+		
+		InformacoesTecnicasEvento informacoes = evento.getInformacoes();
+		
+		informacoes.setProdutos(listProdutos);
+		
+		evento.setInformacoes(informacoes);
+		
+		mv.addObject("evento", evento);
+	
+		return mv;
+		
 	}
 	
 
