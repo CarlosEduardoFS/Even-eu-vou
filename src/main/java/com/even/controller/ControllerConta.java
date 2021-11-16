@@ -103,6 +103,7 @@ public class ControllerConta {
 		informacoes.setQuantidadeCadeiras();
 		informacoes.setQuantidadeMesas();
 		evento.setInformacoes(informacoes);
+		evento.setAtivo(true);
 		
 		List<Conta> list = banco.listarConta();
 		int idConta = evento.getOrganizador().getId();
@@ -223,7 +224,8 @@ public class ControllerConta {
 			
 			if (contaLogada.getId() == eve.getOrganizador().getId()) {
 				
-				lista2.add(eve);
+				if (eve.getAtivo())
+					lista2.add(eve);
 				
 			}
 			
@@ -274,6 +276,36 @@ public class ControllerConta {
 	
 		return mv;
 		
+	}
+	
+	@GetMapping("/paginaEvento/editarEvento/{id}")
+	public ModelAndView editarEvento(@PathVariable("id") Integer id) {
+		
+		ModelAndView mv = new ModelAndView("editarEvento");
+		
+		System.out.println("Entrou");
+		
+		List<Evento> eve = bancoEvento.listarEvento();
+		
+		Evento evento = eve.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+		
+		mv.addObject("evento", evento);
+		
+		return mv;
+	}
+	
+	@GetMapping("/paginaEvento/removerEvento/{id}")
+	public String removerEvento(@PathVariable("id") Integer id) {
+		
+		List<Evento> even = bancoEvento.listarEvento();
+		
+		Evento evento = even.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+		
+		evento.setAtivo(false);
+		
+		bancoEvento.saveEvento(evento);
+		
+		return "redirect:/listaEventos";
 	}
 	
 

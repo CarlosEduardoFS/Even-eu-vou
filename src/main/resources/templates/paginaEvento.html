@@ -56,7 +56,7 @@
 			  display: flex;
 			  flex-wrap: wrap;
 			  justify-content: center;
-			  padding: 90px 95px 90px 95px;
+			  padding: 65px 65px 65px 65px;
 			}
 			
 			.form-control {
@@ -267,66 +267,40 @@
         <br>
 		<div class="conteiner">
         	<div class="wlogin">
-        	
         		<span class="loginParaTitulo js-tilt" th:text="${evento.nomeEvento}">			
 				</span>
-	            <span class="text">
-	            	<br>
-	            	Data:  
-	            </span>
-	            <span th:text="${evento.dataEvento}"> 
-	            </span>
-	            
-	            <span class="text">
-	            	<br>
-	            	Descri&ccedil;&atilde;o:  
-	            </span>
-	            <span th:text="${evento.descricao}"> 
-	            </span>
-	            
-	            <span class="text">
-	            	<br>
-	            	Quantidade de Pessoas:  
-	            </span>
-	        	<span th:text="${evento.informacoes.quantidadePessoas}"> 
-	            </span>
-	            
-	            <span class="text">
-	            	<br>
-	            	Quantidade de Mesas:  
-	            </span>
-	            <span th:text="${evento.informacoes.quantidadeMesas}"> 
-	            </span>
-	            
-	            <span class="text">
-	            	<br>
-	            	Quantidade de Cadeiras:  
-	            </span>
-	            <span th:text="${evento.informacoes.quantidadeCadeiras}"> 
-	            </span>
-            
-	           <div class="wlogin">
+				<div class="wlogin">
+					<span class="text" >Data: </span>
+					<p th:text="${evento.dataEvento}"></p>
+					<span class="text" >Descri&ccedil;&atilde;o:</span>
+	            	<p th:text="${evento.descricao}"></p>
+	            	<span class="text" >Quantidade de Pessoas: </span>
+	            	<p th:text="${evento.informacoes.quantidadePessoas}"></p>
+	            	<span class="text">Quantidade de Mesas:</span>
+	            	<p th:text="${evento.informacoes.quantidadeMesas}"></p> 
+	            	<span class="text">Quantidade de Cadeiras: </span>
+	            	<p th:text="${evento.informacoes.quantidadeCadeiras}"></p>
+	            	<div class="wlogin">
 						<table class="table">
-					
 							<thead> 
 								<tr>
 									<th>Nome Produto</th>
 									<th>Quantidade</th>
 								</tr>
 							</thead>
-							
 							<tbody>
-								
 								<tr th:each="produto:${evento.informacoes.produtos}"> 
 									<td th:text="${produto.nomeProduto}"></td>
 									<td th:text="${produto.quantidade}"></td>
 								</tr>
 							</tbody>
 						</table>
-	           	</div>
-        	
-        	
-	        	
+	           		</div> 
+				</div>
+				<div class="conteinerParaBtn">
+					<a class="btn btn-outline-success" th:href="@{editarEvento/{id}(id=${evento.id})}">Editar Evento</a>
+					<a class="btn btn-outline-success" th:href="@{removerEvento/{id}(id=${evento.id})}">Remover Evento</a>
+				</div>
 			 </div>
 		</div>
 	</body>

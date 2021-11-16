@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Language" content="pt-br">
 		<meta charset="ISO-8859-1">
-		<title>P&aacute;gina inicial</title>
+		<title>Editar Evento</title>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<!-- JavaScript Bundle with Popper -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -56,7 +56,7 @@
 			  display: flex;
 			  flex-wrap: wrap;
 			  justify-content: center;
-			  padding: 65px 65px 65px 65px;
+			  padding: 90px 95px 90px 95px;
 			}
 			
 			.form-control {
@@ -123,13 +123,10 @@
                 background-image: none;
                 border-color: #4158d0;
             }
-            .text {
-			  font-family: Montserrat-Bold;
-			  font-size: 20px;
-			  
-			  color: black;
-			  
-			}
+            .text{
+              color:#fff;
+
+            }
 
 			.wInput {
 			  position: relative;
@@ -230,11 +227,6 @@
                 background-image: none;
                 border-color: #4158d0;
             }
-            
-            span 
-			{
-			    display: block;
-			}
 
 		</style>
 	
@@ -254,8 +246,8 @@
                 <div class="collapse navbar-collapse" id="#navbarNavAltMarkup">
                   <div class="navbar-nav">
                     <a class="nav-item nav-link" href="#">P&aacute;gina inicial <span class="sr-only"></span></a>
-                    <a class="nav-item nav-link active" href="/criarEvento">Criar evento</a>
-                    <a class="nav-item nav-link" href="/listaEventos">Meus eventos</a>
+                    <a class="nav-item nav-link" href="/criarEvento">Criar evento</a>
+                    <a class="nav-item nav-link" href="#">Meus eventos</a>
                   </div>
                 </div>
                 <span class="navbar-text">
@@ -263,45 +255,58 @@
                  </span>
               </nav>
          </div>
-        <br>
-        <br>
 		<div class="conteiner">
         	<div class="wlogin">
-        		<span class="loginParaTitulo js-tilt" th:text="${evento.nomeEvento}">			
-				</span>
-				<div class="wlogin">
-					<span class="text" >Data: </span>
-					<p th:text="${evento.dataEvento}"></p>
-					<span class="text" >Descri&ccedil;&atilde;o:</span>
-	            	<p th:text="${evento.descricao}"></p>
-	            	<span class="text" >Quantidade de Pessoas: </span>
-	            	<p th:text="${evento.informacoes.quantidadePessoas}"></p>
-	            	<span class="text">Quantidade de Mesas:</span>
-	            	<p th:text="${evento.informacoes.quantidadeMesas}"></p> 
-	            	<span class="text">Quantidade de Cadeiras: </span>
-	            	<p th:text="${evento.informacoes.quantidadeCadeiras}"></p>
-	            	<div class="wlogin">
-						<table class="table">
-							<thead> 
-								<tr>
-									<th>Nome Produto</th>
-									<th>Quantidade</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="produto:${evento.informacoes.produtos}"> 
-									<td th:text="${produto.nomeProduto}"></td>
-									<td th:text="${produto.quantidade}"></td>
-								</tr>
-							</tbody>
-						</table>
-	           		</div> 
-				</div>
-				<div class="conteinerParaBtn">
-					<a class="btn btn-outline-success" th:href="@{editarEvento/{id}(id=${evento.id})}">Editar Evento</a>
-					<a class="btn btn-outline-success" th:href="@{removerEvento/{id}(id=${evento.id})}">Remover Evento</a>
-				</div>
-			 </div>
+				<form class="LoginPara" action="/cadastroEvento" method="POST" th:object="${evento}">
+					<input type="hidden" th:field="*{id}">
+					<input type="hidden" th:field="*{organizador}">
+					<span class="loginParaTitulo js-tilt">
+						Forne&ccedil;a os dados Atualizados
+					</span>
+					
+					<div class="wInput">
+						<input class="input" type="text" name="nomeEvento" placeholder="Nome do evento" autocomplete="off" required>
+						<span class="focoInput"></span>
+					</div>
+					
+					<div class="wInput">
+						<input class="input" type="datetime" name="dataEvento" placeholder="Data do evento formato dd/mm/yyy HH:mm:ss" autocomplete="off"required>
+						<span class="focoInput"></span>
+					</div>
+					<div class="wInput">
+						<input class="input" type="text" name="informacoes.quantidadePessoas" placeholder="Quantidade de pessoas" autocomplete="off"required>
+						<span class="focoInput"></span>
+					</div>
+					<div class="wInput">
+						<br>
+						<select class="form-select form-select-sm" aria-label=".form-select-sm" name="precisaDeProdutos">
+							<option selected>Voc&ecirc; vai disponibilizar algum produto? </option>
+							<option value="true">Sim</option>
+							<option value="false">N&atilde;o </option>
+						  </select>
+					</div >
+					<div class="wInput">
+						<br>
+						<select class="form-select form-select-sm" aria-label=".form-select-sm" name="convidadosLevamProdutos">
+							<option selected>Os convidados ter&atilde;o que levar algum produto? </option>
+							<option value="true">Sim</option>
+							<option value="false">N&atilde;o </option>
+						  </select>
+					</div >
+					<div class="mb-3">
+						<br>
+						<label for="descricao" class="form-label">Descri&ccedil;&atilde;o do evento</label>
+						<textarea class="form-control" name ="descricao" id="descricao" rows="3"></textarea>
+					</div>
+
+					<div class="conteinerParaBtn">
+						<button class="btn btn-outline-success">
+							Continuar
+						</button>
+					</div>
+
+				</form>
+           </div>
 		</div>
 	</body>
 </html>
