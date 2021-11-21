@@ -58,6 +58,7 @@ public class ControllerLogin {
 			
 			Login loginBanco = logins.get(posicao);
 			
+			
 			if (isLogin(loginBanco, login)) {
 				Conta contaLog = contaLogada(loginBanco.getId());
 				

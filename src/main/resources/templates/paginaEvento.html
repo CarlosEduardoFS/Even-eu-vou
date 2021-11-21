@@ -59,6 +59,17 @@
 			  padding: 65px 65px 65px 65px;
 			}
 			
+			.wlogin {
+			  width: 70%;;
+			  background: #fff;
+			  border-radius: 50px;
+			  overflow: hidden;
+			  display: flex;
+			  flex-wrap: wrap;
+			  justify-content: center;
+			  padding: 90px 90px 90px 90px;
+			}
+			
 			.form-control {
 	            display: block;
 	            width: 100%;
@@ -270,6 +281,8 @@
         		<span class="loginParaTitulo js-tilt" th:text="${evento.nomeEvento}">			
 				</span>
 				<div class="wlogin">
+					<span class="text" >Chave de busca Evento: </span>
+					<p th:text="${evento.chaveBusca}"></p>
 					<span class="text" >Data: </span>
 					<p th:text="${evento.dataEvento}"></p>
 					<span class="text" >Descri&ccedil;&atilde;o:</span>
@@ -296,7 +309,25 @@
 							</tbody>
 						</table>
 	           		</div> 
-				</div>
+		           		<div class="wlogin">
+							<table class="table">
+								<thead> 
+									<tr>
+										<th>Nome Convidado</th>
+										<th>Produto</th>
+										<th>Quantidade</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="convidado:${evento.convidados}"> 
+										<td th:text="${convidado.nome}"></td>
+										<td th:text="${convidado.produto.nomeProduto}"></td>
+										<td th:text="${convidado.produto.quantidade}"></td>
+									</tr>
+								</tbody>
+							</table>
+		           		</div> 
+		           	</div>
 				<div class="conteinerParaBtn">
 					<a class="btn btn-outline-success" th:href="@{editarEvento/{id}(id=${evento.id})}">Editar Evento</a>
 					<a class="btn btn-outline-success" th:href="@{removerEvento/{id}(id=${evento.id})}">Remover Evento</a>

@@ -2,6 +2,8 @@ package com.even.model;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -23,6 +26,7 @@ public class Evento {
 	private Boolean convidadosLevamProdutos;
 	private Boolean precisaDeProdutos;
 	private Boolean ativo;
+	private String chaveBusca;
 	
 	@OneToOne
 	@JoinColumn
@@ -32,8 +36,13 @@ public class Evento {
 	@JoinColumn
 	private InformacoesTecnicasEvento informacoes;
 	
+	@OneToMany
+	@JoinColumn
+	private List<Convidado> convidados;
+	
 	public Evento() {
 		informacoes = new InformacoesTecnicasEvento();
+		convidados = new LinkedList<>();
 	}
 	
 	public Evento(Integer id, String nomeEvento, Date dataEvento, String descricao,  InformacoesTecnicasEvento informacoes,Boolean convidadosLevamProdutos, Boolean precisaDeProdutos,Boolean ativo) {
@@ -117,6 +126,22 @@ public class Evento {
 
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public String getChaveBusca() {
+		return chaveBusca;
+	}
+
+	public void setChaveBusca(String chaveBusca) {
+		this.chaveBusca = chaveBusca;
+	}
+
+	public List<Convidado> getConvidados() {
+		return convidados;
+	}
+
+	public void setConvidados(List<Convidado> convidados) {
+		this.convidados = convidados;
 	}
 
 	public String todasInformacoes() {
