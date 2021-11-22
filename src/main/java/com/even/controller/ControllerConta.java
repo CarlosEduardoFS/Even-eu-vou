@@ -54,7 +54,15 @@ public class ControllerConta {
 		
 		return mv;
 	}
-
+	
+	@GetMapping("/sair")
+	public String sair() {
+		
+		contaLogada = null;
+		
+		return "redirect:/index.html";
+	}
+	
 	@GetMapping("/cadastro")
 	public ModelAndView cadastro() {
 		
@@ -258,6 +266,8 @@ public class ControllerConta {
 				}	
 				
 			}
+			
+			produto.setQuantidadeConfirmada(0);
 			produtos.add(produto);
 			
 			bancoProduto.saveProdutos(produto);
@@ -433,13 +443,27 @@ public class ControllerConta {
 		}
 	}
 	
+	public List<Produtos> litaProdutosEventoAtivos (Integer id){
+		
+		List<Produtos> lista2 = new LinkedList<>();
+		
+		for (Produtos produ : bancoProduto.listarProdutos()) {
+			
+			if((produ.getEvento().getId() == id) && (produ.getQuantidade() != null) && (produ.getQuantidadeConfirmada() != null)) {
+				
+				if (produ.getQuantidade() > produ.getQuantidadeConfirmada())
+					lista2.add(produ);
+			}
+		}
+		
+		return lista2;
+	}
+	
 	@PostMapping("/buscarEventoConvidade")
 	public ModelAndView buscarEvento  (@ModelAttribute Texto chave) {
 		
 		ModelAndView mv = new ModelAndView();
 		List<Evento> eventos = bancoEvento.listarEvento();
-		
-		System.out.println("Entrou 2"+chave.getTexto());
 		
 		Evento evento = eventos.stream().filter(x -> x.getChaveBusca().equals(chave.getTexto())).findFirst().orElse(null);
 		
@@ -447,7 +471,7 @@ public class ControllerConta {
 			
 			mv.setViewName("editarEvento");
 			
-			List<Produtos> produtos = litaProdutosEvento(evento.getId());
+			List<Produtos> produtos = litaProdutosEventoAtivos(evento.getId());
 			Convidado convidado = new Convidado();
 			
 			convidado.setEvento(evento);
