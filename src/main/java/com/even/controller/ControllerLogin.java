@@ -31,13 +31,13 @@ public class ControllerLogin {
 		
 		banco.saveLogin(login);
 		
-		return "login";
+		return "conta/login";
 	}
 	
 	@GetMapping("/login")
 	public ModelAndView Login() {
 		
-		ModelAndView mv = new ModelAndView("login");
+		ModelAndView mv = new ModelAndView("conta/login");
 		Login login = new Login();
 		mv.addObject("login", login);
 		
@@ -70,7 +70,7 @@ public class ControllerLogin {
 			}	
 		}
 		
-		ModelAndView mv = new ModelAndView("login");
+		ModelAndView mv = new ModelAndView("conta/login");
 		return mv;
 	}
 	
@@ -105,7 +105,7 @@ public class ControllerLogin {
 	@GetMapping("/atualizarSenha")
 	public ModelAndView atualizarSenha() {
 		
-		ModelAndView mv = new ModelAndView("util/alterarSenha");
+		ModelAndView mv = new ModelAndView("conta/buscaEmail");
 		Login login = new Login();
 		mv.addObject("login", login);
 		
@@ -117,7 +117,6 @@ public class ControllerLogin {
 		
 		List<Login> logins = banco.listarLogin();
 		
-		
 		Collections.sort(logins);
 		
 		int posicao = Collections.binarySearch(logins, login, null);
@@ -127,7 +126,7 @@ public class ControllerLogin {
 			Login loginBanco = logins.get(posicao);
 			
 			if (verificaEmail(loginBanco, login)) {
-				ModelAndView mv = new ModelAndView("util/altSenha");
+				ModelAndView mv = new ModelAndView("conta/altSenha");
 				login.setId(loginBanco.getId());
 				mv.addObject("login", login);
 				return mv;
