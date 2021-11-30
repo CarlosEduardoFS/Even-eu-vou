@@ -108,9 +108,9 @@ public class ControllerCentral {
 	public ModelAndView salvarEvento(@ModelAttribute Evento evento) {
 		
 		ModelAndView mv = new ModelAndView();
-		List<Conta> list = bancoConta.listarConta();
 		
 		if (contaLogada != null) {
+			List<Conta> list = bancoConta.listarConta();
 			mv = controlEvento.salvarEvento(evento, contaLogada, list);
 			return mv;
 		}else {
