@@ -57,7 +57,9 @@ public class ControllerEvento {
 
 		mv.setViewName("redirecionamentos/redireInformacoes");
 		InformacoesTecnicasEvento informacoes = evento.getInformacoes();
-
+		
+		System.out.println(informacoes.getId());
+		
 		informacoes.setQuantidadeCadeiras();
 		informacoes.setQuantidadeMesas();
 		evento.setInformacoes(informacoes);
@@ -135,7 +137,8 @@ public class ControllerEvento {
 		Evento evento = eve.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
 
 		if (contaLogada.getId() == evento.getOrganizador().getId()) {
-
+			
+			
 			mv.setViewName("usuario/evento/editarEvento");
 			mv.addObject("evento", evento);
 			return mv;
@@ -169,12 +172,15 @@ public class ControllerEvento {
 	public List<Produtos> litaProdutosEvento(Integer id) {
 
 		List<Produtos> lista2 = new LinkedList<>();
-
+		
 		for (Produtos produ : bancoProduto.listarProdutos()) {
+			
+			if (produ.getAtivo()) {
+				
+				if (produ.getEvento().getId() == id) {
 
-			if (produ.getEvento().getId() == id) {
-
-				lista2.add(produ);
+					lista2.add(produ);
+				}
 			}
 		}
 
@@ -186,10 +192,12 @@ public class ControllerEvento {
 		List<Convidado> lista2 = new LinkedList<>();
 
 		for (Convidado convidado : bancoConvidados.listarConvidado()) {
+			if (convidado.getAtivo()) {
+				if (convidado.getEvento().getId() == id) {
 
-			if (convidado.getEvento().getId() == id) {
-
-				lista2.add(convidado);
+					lista2.add(convidado);
+				}
+				
 			}
 		}
 
@@ -198,7 +206,7 @@ public class ControllerEvento {
 
 	public ModelAndView paginaEvento(Integer id, Conta contaLogada, List<Produtos> listProdutos) {
 
-		ModelAndView mv = new ModelAndView("usuario/evento/paginaEvento");
+		ModelAndView mv = new ModelAndView();
 
 		List<Evento> lista = bancoEvento.listarEvento();
 
@@ -214,10 +222,22 @@ public class ControllerEvento {
 
 			evento.setInformacoes(informacoes);
 			evento.setConvidados(listConvidados);
-
 			mv.addObject("evento", evento);
-
+			if (!evento.getConvidadosLevamProdutos() && !evento.getPrecisaDeProdutos()) {
+				
+				mv.setViewName("usuario/evento/paginaEventoSemProduto");
+				return mv;
+				
+			} else if (!evento.getConvidadosLevamProdutos()) {
+				
+				mv.setViewName("usuario/evento/paginaEventoSemProdutosUsuario");
+				return mv;
+				
+			}
+			
+			mv.setViewName("usuario/evento/paginaEvento");
 			return mv;
+			
 		} else {
 
 			mv.setViewName("util/paginaErro");

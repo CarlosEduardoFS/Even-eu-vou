@@ -36,9 +36,11 @@ public class ControllerConvidado {
 		for (Produtos produ : bancoProduto.listarProdutos()) {
 			
 			if((produ.getEvento().getId() == id) && (produ.getQuantidade() != null) && (produ.getQuantidadeConfirmada() != null)) {
-				
-				if (produ.getQuantidade() > produ.getQuantidadeConfirmada())
-					lista2.add(produ);
+				if (produ.getAtivo()) {
+					if (produ.getQuantidade() > produ.getQuantidadeConfirmada())
+						lista2.add(produ);
+					
+				}		
 			}
 		}
 		
@@ -60,13 +62,21 @@ public class ControllerConvidado {
 			
 			convidado.setEvento(evento);
 			
-			mv.setViewName("usuario/presenca");
 			mv.addObject("produtos", produtos);
 			mv.addObject("convidado", convidado);
 			
-			return mv;
+			if (evento.getConvidadosLevamProdutos()) {
+				
+				mv.setViewName("usuario/presenca");
+				return mv;
+			}else {
+				mv.setViewName("usuario/presencaSemProduto");
+				return mv;
+				
+			}
 			
-		}
+			
+		} 
 		
 		mv.setViewName("util/paginaErro");
 		return mv;
@@ -79,10 +89,12 @@ public class ControllerConvidado {
 		
 		for (Convidado convidado : bancoConvidados.listarConvidado()) {
 			
-			if(convidado.getEvento().getId() == id) {
-				
-				lista2.add(convidado);
-			}
+			if (convidado.getAtivo()) {
+				if((convidado.getEvento() != null) && (convidado.getEvento().getId() == id)  ) {
+					
+					lista2.add(convidado);
+				}
+			}	
 		}
 		
 		return lista2;
@@ -95,15 +107,19 @@ public class ControllerConvidado {
 		List<Evento> eventos = bancoEvento.listarEvento();
 		Evento evento = eventos.stream().filter(x -> x.getId() == convidado.getEvento().getId()).findFirst().orElse(null);
 		
-		List<Produtos> produtos = bancoProduto.listarProdutos();
-		Produtos produto = produtos.stream().filter(x -> x.getId() == convidado.getProduto().getId()).findFirst().orElse(null);
-		produto.setQuantidadeConfirmada(convidado.getProduto().getQuantidade());
-		bancoProduto.saveProdutos(produto);
+		if (convidado.getProduto() != null) {
+			List<Produtos> produtos = bancoProduto.listarProdutos();
+			Produtos produto = produtos.stream().filter(x -> x.getId() == convidado.getProduto().getId()).findFirst().orElse(null);
+			produto.setQuantidadeConfirmada(convidado.getProduto().getQuantidade());
+			bancoProduto.saveProdutos(produto);
+			
+		}
 		
 		List<Convidado> listConvidado = litaConvidadoEvento(evento.getId());
 		listConvidado.add(convidado);
 		evento.setConvidados(listConvidado);
 		
+		convidado.setAtivo(true);
 		bancoConvidados.saveConvidado(convidado);
 		bancoEvento.saveEvento(evento);
 		

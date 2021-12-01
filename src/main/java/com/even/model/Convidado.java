@@ -14,6 +14,7 @@ public class Convidado {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	private String nome;
+	private Boolean ativo;
 	
 	@OneToOne
 	@JoinColumn
@@ -25,11 +26,12 @@ public class Convidado {
 
 	public Convidado() {}
 
-	public Convidado(Integer id, String nome, Produtos produto, Evento evento) {
+	public Convidado(Integer id, String nome, Produtos produto, Evento evento, Boolean ativo) {
 		this.id = id;
 		this.nome = nome;
 		this.produto = produto;
 		this.evento = evento;
+		this.ativo = ativo;
 	}
 
 	public Integer getId() {
@@ -64,6 +66,14 @@ public class Convidado {
 		this.evento = evento;
 	}	
 	
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

@@ -16,6 +16,7 @@ public class Produtos {
 	private String nomeProduto;
 	private Integer quantidade;
 	private Integer quantidadeConfirmada;
+	private Boolean ativo;
 	
 	@OneToOne
 	@JoinColumn
@@ -25,12 +26,13 @@ public class Produtos {
 		evento = new Evento();
 	}
 	
-	public Produtos(Integer id, String nomeProduto, Integer quantidade, Integer quantidadeConfirmada,Evento evento) {
+	public Produtos(Integer id, String nomeProduto, Integer quantidade, Integer quantidadeConfirmada,Evento evento,Boolean ativo) {
 		this.id = id;
 		this.nomeProduto = nomeProduto;
 		this.quantidade = quantidade;
 		this.quantidadeConfirmada = quantidadeConfirmada;
 		this.evento = evento;
+		this.ativo = ativo;
 	}
 
 	public Integer getId() {
@@ -75,6 +77,14 @@ public class Produtos {
 
 	public void setEvento(Evento evento) {
 		this.evento = evento;
+	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	public String todasInformacoes() {

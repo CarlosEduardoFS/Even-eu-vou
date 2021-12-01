@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.even.model.Conta;
+import com.even.model.Convidado;
 import com.even.model.Evento;
 import com.even.model.Produtos;
 import com.even.service.ServicoConta;
+import com.even.service.ServicoConvidado;
 import com.even.service.ServicoEvento;
 import com.even.service.ServicoProdutos;
 import com.even.utilizatiros.Texto;
@@ -33,10 +35,14 @@ public class ControllerCentral {
 	ServicoEvento bancoEvento;
 	
 	@Autowired
+	ServicoConvidado bancoConvidado;
+	
+	@Autowired
 	ControllerEvento controlEvento;
 	
 	@Autowired
 	ControllerProduto controlProduto;
+	
 	
 	@GetMapping("/pesquisarEvento")
 	public ModelAndView pesuisaConta () {
@@ -139,12 +145,43 @@ public class ControllerCentral {
 		ModelAndView mv = new ModelAndView();
 		
 		if (contaLogada != null) {
+			
+			List<Evento> eve = bancoEvento.listarEvento();
+			Evento evento = eve.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+			
+			if (contaLogada.getId() == evento.getOrganizador().getId()) {
+				excluiConvidadosEProdutos (id);
+			}
+			
 			mv = controlEvento.editarEvento(id, contaLogada);
 			return mv;
 		}else {
 			mv.setViewName("util/paginaErro");
 			return mv;
 		}	
+	  
+	}
+	
+	private void excluiConvidadosEProdutos (Integer id) {
+		
+		for (Produtos produto :  bancoProduto.listarProdutos()) {
+			
+			if (produto.getEvento().getId() == id) {
+				
+				produto.setAtivo(false);
+				
+				bancoProduto.saveProdutos(produto);
+				
+			}
+		}
+		for (Convidado convidado : bancoConvidado.listarConvidado()) {
+			
+			if (convidado.getEvento().getId() == id) {
+				
+				convidado.setAtivo(false);
+				bancoConvidado.saveConvidado(convidado);
+			}
+		}
 		
 	}
 	

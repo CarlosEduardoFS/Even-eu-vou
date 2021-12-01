@@ -34,11 +34,13 @@ public class ControllerProduto {
 		produto.setEvento(evento);
 
 		for (Produtos produ : bancoProduto.listarProdutos()) {
+			if (produ.getAtivo()) {
+				
+				if (produ.getEvento().getId() == produto.getEvento().getId()) {
 
-			if (produ.getEvento().getId() == produto.getEvento().getId()) {
+					list2.add(produ);
 
-				list2.add(produ);
-
+				}
 			}
 		}
 
@@ -54,6 +56,8 @@ public class ControllerProduto {
 		ModelAndView mv = new ModelAndView();
 
 		mv.setViewName("usuario/produto/cadastroProduto");
+		
+		produto.setAtivo(true);
 
 		List<Evento> list = bancoEvento.listarEvento();
 		List<Produtos> produtos = new LinkedList<>();
@@ -77,11 +81,13 @@ public class ControllerProduto {
 		produto2.setEvento(evento);
 
 		for (Produtos produ : bancoProduto.listarProdutos()) {
+			if (produ.getAtivo()){
+				
+				if (produ.getEvento().getId() == produto.getEvento().getId()) {
 
-			if (produ.getEvento().getId() == produto.getEvento().getId()) {
+					list2.add(produ);
 
-				list2.add(produ);
-
+				}
 			}
 		}
 

@@ -261,6 +261,7 @@
 					<input type="hidden" th:field="*{id}">
 					<input type="hidden" th:field="*{organizador}">
 					<input type="hidden" th:field="*{chaveBusca}">
+					<input type="hidden" th:field="*{informacoes}">
 					<span class="loginParaTitulo js-tilt">
 						Forne&ccedil;a os dados Atualizados
 					</span>
@@ -271,7 +272,9 @@
 					</div>
 					
 					<div class="wInput">
-						<input class="input" type="datetime" name="dataEvento" placeholder="Data do evento formato dd/mm/yyy HH:mm:ss" autocomplete="off"required>
+						<label for="diaa">data e Hora</label>
+    					<input type="date" name="dataEvento">
+    					<input type="time" name="horaEvento">
 						<span class="focoInput"></span>
 					</div>
 					<div class="wInput">
@@ -281,7 +284,7 @@
 					<div class="wInput">
 						<br>
 						<select class="form-select form-select-sm" aria-label=".form-select-sm" name="precisaDeProdutos">
-							<option selected>Voc&ecirc; vai disponibilizar algum produto? </option>
+							<option value="false" selected>Voc&ecirc; vai disponibilizar algum produto? </option>
 							<option value="true">Sim</option>
 							<option value="false">N&atilde;o </option>
 						  </select>
@@ -289,7 +292,7 @@
 					<div class="wInput">
 						<br>
 						<select class="form-select form-select-sm" aria-label=".form-select-sm" name="convidadosLevamProdutos">
-							<option selected>Os convidados ter&atilde;o que levar algum produto? </option>
+							<option value="false" selected>Os convidados ter&atilde;o que levar algum produto? </option>
 							<option value="true">Sim</option>
 							<option value="false">N&atilde;o </option>
 						  </select>
