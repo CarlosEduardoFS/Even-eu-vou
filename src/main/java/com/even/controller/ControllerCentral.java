@@ -1,5 +1,6 @@
 package com.even.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.even.model.Conta;
 import com.even.model.Convidado;
 import com.even.model.Evento;
+import com.even.model.Login;
 import com.even.model.Produtos;
 import com.even.service.ServicoConta;
 import com.even.service.ServicoConvidado;
 import com.even.service.ServicoEvento;
+import com.even.service.ServicoLogin;
 import com.even.service.ServicoProdutos;
 import com.even.utilizatiros.Texto;
 
@@ -27,6 +30,9 @@ public class ControllerCentral {
 	
 	@Autowired
 	ServicoConta bancoConta;
+	
+	@Autowired
+	ServicoLogin bancoLogin;
 	
 	@Autowired
 	ServicoProdutos bancoProduto;
@@ -42,6 +48,9 @@ public class ControllerCentral {
 	
 	@Autowired
 	ControllerProduto controlProduto;
+	
+	@Autowired
+	ControllerConta controlConta;
 	
 	
 	@GetMapping("/pesquisarEvento")
@@ -61,6 +70,29 @@ public class ControllerCentral {
 		contaLogada = null;
 		
 		return "redirect:/index.html";
+	}
+	
+	@GetMapping("/cadastro")
+	public ModelAndView telaCaddastroConta() {
+		
+		return controlConta.cadastro();
+		
+	}
+	
+	@PostMapping("/salvarConta")
+	public String salvarConta (@ModelAttribute Conta conta) {
+		
+		List<Login> logins = bancoLogin.listarLogin();
+		Collections.sort(logins);
+		int posicao = Collections.binarySearch(logins, conta.getLogin(), null);
+		
+		if (posicao >= 0) {
+			
+			return "util/contaExiste";
+		}
+		
+		return controlConta.salvarConta(conta);
+		
 	}
 	
 	@GetMapping("/telaUsuario/{id}")

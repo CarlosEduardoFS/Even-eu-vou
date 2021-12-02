@@ -49,15 +49,12 @@ public class ControllerLogin {
 	public ModelAndView verificaConta(@ModelAttribute Login login) {
 		
 		List<Login> logins = banco.listarLogin();
-		
 		Collections.sort(logins);
-		
 		int posicao = Collections.binarySearch(logins, login, null);
 		
 		if (posicao >= 0) {
 			
 			Login loginBanco = logins.get(posicao);
-			
 			
 			if (isLogin(loginBanco, login)) {
 				Conta contaLog = contaLogada(loginBanco.getId());
@@ -70,7 +67,7 @@ public class ControllerLogin {
 			}	
 		}
 		
-		ModelAndView mv = new ModelAndView("conta/login");
+		ModelAndView mv = new ModelAndView("redirect:/login");
 		return mv;
 	}
 	
