@@ -294,8 +294,9 @@
 	            	<p th:text="${evento.informacoes.quantidadeMesas}"></p> 
 	            	<span class="text">Quantidade de Cadeiras: </span>
 	            	<p th:text="${evento.informacoes.quantidadeCadeiras}"></p>
+	            	
 	            	<div class="wlogin">
-						<table class="table">
+	            		<table class="table">
 							<thead> 
 								<tr>
 									<th>Nome Produto</th>
@@ -310,11 +311,26 @@
 							</tbody>
 						</table>
 	           		</div>
-				<div class="conteinerParaBtn">
-					<a class="btn btn-outline-success" th:href="@{editarEvento/{id}(id=${evento.id})}">Editar Evento</a>
-					<a class="btn btn-outline-success" th:href="@{removerEvento/{id}(id=${evento.id})}">Remover Evento</a>
-				</div>
-			 </div>
+	           		<div class="wlogin2">
+						<table class="table">
+								<thead> 
+									<tr>
+										<th>Nome Convidado</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="convidado:${evento.convidados}"> 
+										<td th:text="${convidado.nome}"></td>
+									</tr>
+								</tbody>
+							</table>
+		           	</div> 
+		           	<div class="conteinerParaBtn">
+						<a class="btn btn-outline-success" th:href="@{editarEvento/{id}(id=${evento.id})}">Editar Evento</a>
+						<a class="btn btn-outline-success" th:href="@{removerEvento/{id}(id=${evento.id})}">Remover Evento</a>
+					</div>
+		        </div>
+			</div>
 		</div>
 	</body>
 </html>
