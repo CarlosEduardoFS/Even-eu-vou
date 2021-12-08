@@ -5,7 +5,7 @@
 	margin: 0 auto;
 }
 
-.conteiner1 {
+.conteinerGeral {
 	width: 100%;
 	min-height: 100vh;
 	display: -webkit-box;
@@ -24,7 +24,7 @@
 	background: linear-gradient(-135deg, #000000, #4158d0);
 }
 
-.conteiner2 {
+.conteinerEvento {
 	width: 100%;
 	min-height: 100vh;
 	display: flex;
@@ -40,17 +40,67 @@
 }
 
 .wlogin {
-	width: 35%;;
+	width: 60%;;
 	background: #fff;
 	border-radius: 70px;
 	overflow: hidden;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	padding: 90px 95px 90px 95px;
+	padding: 20px 50px 40px 50px;
 }
 
-.wlogin2 {
+.wl {
+	margin-right: 75px;
+	margin-left: 75px;
+}
+
+.wloginLista {
+	width: 20%;;
+	background: #fff;
+	border-radius: 50px;
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 10px 30px 10px 30px;
+}
+
+.conteinerIndex {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	background: #000000;
+	background: -webkit-linear-gradient(-135deg, #000000, #4158d0);
+	background: -o-linear-gradient(-135deg, #000000, #4158d0);
+	background: -moz-linear-gradient(-135deg, #000000, #4158d0);
+	background: linear-gradient(-135deg, #000000, #4158d0);
+}
+
+.conteinerLogin {
+	width: 100%;
+	min-height: 100vh;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	padding: 15px;
+	background: #000000;
+	background: -webkit-linear-gradient(-135deg, #000000, #4158d0);
+	background: -o-linear-gradient(-135deg, #000000, #4158d0);
+	background: -moz-linear-gradient(-135deg, #000000, #4158d0);
+	background: linear-gradient(-135deg, #000000, #4158d0);
+}
+
+.wloginGeral {
 	width: 500px;
 	background: #fff;
 	border-radius: 50px;
@@ -63,6 +113,28 @@
 	flex-wrap: wrap;
 	justify-content: space-between;
 	padding: 60px 95px 60px 95px;
+}
+
+.wloginTable {
+	width: 60%;;
+	background: #fff;
+	border-radius: 70px;
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 10px 500px 5px 500px;
+}
+
+.wloginIndex {
+	width: 35%;;
+	background: #fff;
+	border-radius: 70px;
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 90px 95px 90px 95px;
 }
 
 .loginPic {
@@ -203,6 +275,44 @@ wInput {
 	background-color: transparent;
 	background-image: none;
 	border-color: #4158d0;
+}
+
+.p-t-12 {
+	padding-top: 12px;
+}
+
+.text {
+	font-family: Montserrat-Bold;
+	font-size: 20px;
+	color: black;
+}
+
+.wInput {
+	position: relative;
+	width: 100%;
+	z-index: 1;
+	margin-bottom: 10px;
+}
+
+.txt1 {
+	font-family: Poppins-Regular;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #999999;
+}
+
+.txt2 {
+	font-family: Poppins-Regular;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #666666;
+}
+
+.txt3 {
+	font-family: Poppins-Regular;
+	text-align: center;
+	font-size: 20px;
+	color: #000000;
 }
 
 .text40 {
