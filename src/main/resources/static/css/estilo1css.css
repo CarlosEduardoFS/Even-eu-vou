@@ -1,0 +1,210 @@
+@charset "ISO-8859-1";
+
+.limite {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.conteiner1 {
+	width: 100%;
+	min-height: 100vh;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	padding: 15px;
+	background: #000000;
+	background: -webkit-linear-gradient(-135deg, #000000, #4158d0);
+	background: -o-linear-gradient(-135deg, #000000, #4158d0);
+	background: -moz-linear-gradient(-135deg, #000000, #4158d0);
+	background: linear-gradient(-135deg, #000000, #4158d0);
+}
+
+.conteiner2 {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	background: #000000;
+	background: -webkit-linear-gradient(-135deg, #000000, #4158d0);
+	background: -o-linear-gradient(-135deg, #000000, #4158d0);
+	background: -moz-linear-gradient(-135deg, #000000, #4158d0);
+	background: linear-gradient(-135deg, #000000, #4158d0);
+}
+
+.wlogin {
+	width: 35%;;
+	background: #fff;
+	border-radius: 70px;
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 90px 95px 90px 95px;
+}
+
+.wlogin2 {
+	width: 500px;
+	background: #fff;
+	border-radius: 50px;
+	overflow: hidden;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 60px 95px 60px 95px;
+}
+
+.loginPic {
+	width: 316px;
+}
+
+.loginPic img {
+	max-width: 100%;
+}
+
+.loginPara {
+	width: 90px;
+}
+
+.loginPara {
+	width: 90px;
+}
+
+.loginParaTitulo {
+	font-family: Poppins-Bold;
+	font-size: 24px;
+	color: #333333;
+	line-height: 1.2;
+	text-align: center;
+	width: 100%;
+	display: block;
+	padding-bottom: 54px;
+}
+
+.form-control {
+	display: block;
+	width: 100%;
+	padding: 0.5rem 0.75rem;
+	font-size: 1rem;
+	line-height: 1.25;
+	color: #495057;
+	background-color: #fff;
+	background-image: none;
+	background-clip: padding-box;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 0.25rem;
+	transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+wInput {
+	position: relative;
+	width: 100%;
+	z-index: 1;
+	margin-bottom: 10px;
+}
+
+.input {
+	font-family: Poppins-Medium;
+	font-size: 15px;
+	line-height: 1.5;
+	color: #666666;
+	display: block;
+	width: 100%;
+	background: #e6e6e6;
+	height: 50px;
+	border-radius: 25px;
+	padding: 0 30px 0 68px;
+}
+
+.focoInput {
+	display: block;
+	position: absolute;
+	border-radius: 25px;
+	bottom: 0;
+	left: 0;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+	box-shadow: 0px 0px 0px 0px;
+	color: #4158d0;
+}
+
+.input1Foco+.focoInput {
+	-webkit-animation: anim-shadow 0.5s ease-in-out forwards;
+	animation: anim-shadow 0.5s ease-in-out forwards;
+}
+
+.simboloInput {
+	font-size: 15px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	align-items: center;
+	position: absolute;
+	border-radius: 25px;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding-left: 35px;
+	pointer-events: none;
+	color: #666666;
+	-webkit-transition: all 0.4s;
+	-o-transition: all 0.4s;
+	-moz-transition: all 0.4s;
+	transition: all 0.4s;
+}
+
+.conteinerParaBtn {
+	width: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding-top: 20px;
+}
+
+.btn {
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: 0.5rem 0.5rem;
+	font-size: 1rem;
+	line-height: 1.25;
+	border-radius: 0.25rem;
+	transition: all 0.15s ease-in-out;
+}
+
+.btn-outline-success {
+	color: #4158d0;
+	background-color: transparent;
+	background-image: none;
+	border-color: #4158d0;
+}
+
+.text40 {
+	color: #fff;
+}
