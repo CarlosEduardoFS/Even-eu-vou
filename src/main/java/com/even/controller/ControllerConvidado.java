@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.even.model.Convidado;
@@ -19,116 +17,110 @@ import com.even.utilizatiros.Texto;
 
 @Controller
 public class ControllerConvidado {
-	
+
 	@Autowired
 	ServicoConvidado bancoConvidados;
-	
-	@Autowired
-	ServicoProdutos bancoProduto;
-	
-	@Autowired
-	ServicoEvento bancoEvento;
-	
-	public List<Produtos> litaProdutosEventoAtivos (Integer id){
-		
+
+	public List<Produtos> litaProdutosEventoAtivos(Integer id, List<Produtos> produtos) {
+
 		List<Produtos> lista2 = new LinkedList<>();
-		
-		for (Produtos produ : bancoProduto.listarProdutos()) {
-			
-			if((produ.getEvento().getId() == id) && (produ.getQuantidade() != null) && (produ.getQuantidadeConfirmada() != null)) {
+
+		for (Produtos produ : produtos) {
+
+			if ((produ.getEvento().getId() == id) && (produ.getQuantidade() != null)
+					&& (produ.getQuantidadeConfirmada() != null)) {
 				if (produ.getAtivo()) {
 					if (produ.getQuantidade() > produ.getQuantidadeConfirmada())
+						produ.setQuantidade(produ.getQuantidade() - produ.getQuantidadeConfirmada());
 						lista2.add(produ);
-					
-				}		
+				}
 			}
 		}
-		
+
 		return lista2;
 	}
-	
-	@PostMapping("/buscarEventoConvidado")
-	public ModelAndView buscarEvento  (@ModelAttribute Texto chave) {
-		
+
+	public ModelAndView buscarEvento(Texto chave, List<Produtos> listProduto, ServicoEvento bancoEvento) {
+
 		ModelAndView mv = new ModelAndView();
 		List<Evento> eventos = bancoEvento.listarEvento();
-		
-		Evento evento = eventos.stream().filter(x -> x.getChaveBusca().equals(chave.getTexto())).findFirst().orElse(null);
-		
+
+		Evento evento = eventos.stream().filter(x -> x.getChaveBusca().equals(chave.getTexto())).findFirst()
+				.orElse(null);
+
 		if (evento != null) {
-			
-			List<Produtos> produtos = litaProdutosEventoAtivos(evento.getId());
+
+			List<Produtos> produtos = litaProdutosEventoAtivos(evento.getId(), listProduto);
 			Convidado convidado = new Convidado();
-			
+
 			convidado.setEvento(evento);
-			
+
 			mv.addObject("produtos", produtos);
 			mv.addObject("convidado", convidado);
-			
+
 			if (evento.getConvidadosLevamProdutos()) {
-				
+
 				mv.setViewName("usuario/presenca");
 				return mv;
-			}else {
+			} else {
 				mv.setViewName("usuario/presencaSemProduto");
 				return mv;
-				
+
 			}
-			
-			
-		} 
-		
+		}
+
 		mv.setViewName("util/paginaErro");
 		return mv;
-		
+
 	}
-	
-	public List<Convidado> litaConvidadoEvento (Integer id){
-		
+
+	public List<Convidado> litaConvidadoEvento(Integer id) {
+
 		List<Convidado> lista2 = new LinkedList<>();
-		
+
 		for (Convidado convidado : bancoConvidados.listarConvidado()) {
-			
+
 			if (convidado.getAtivo()) {
-				if((convidado.getEvento() != null) && (convidado.getEvento().getId() == id)  ) {
-					
+				if ((convidado.getEvento() != null) && (convidado.getEvento().getId() == id)) {
+
 					lista2.add(convidado);
 				}
-			}	
+			}
 		}
-		
+
 		return lista2;
 	}
-	
-	@PostMapping("/salvarConvidado")
-	public ModelAndView cadastrarConvidade(@ModelAttribute Convidado convidado) {
-		
+
+	public ModelAndView cadastrarConvidade(Convidado convidado, ServicoProdutos bancoProduto,
+			ServicoEvento bancoEvento) {
+
 		ModelAndView mv = new ModelAndView();
 		List<Evento> eventos = bancoEvento.listarEvento();
-		Evento evento = eventos.stream().filter(x -> x.getId() == convidado.getEvento().getId()).findFirst().orElse(null);
-		
+		Evento evento = eventos.stream().filter(x -> x.getId() == convidado.getEvento().getId()).findFirst()
+				.orElse(null);
+
 		if (convidado.getProduto() != null) {
 			List<Produtos> produtos = bancoProduto.listarProdutos();
-			Produtos produto = produtos.stream().filter(x -> x.getId() == convidado.getProduto().getId()).findFirst().orElse(null);
-			produto.setQuantidadeConfirmada(convidado.getProduto().getQuantidade());
+			Produtos produto = produtos.stream().filter(x -> x.getId() == convidado.getProduto().getId()).findFirst()
+					.orElse(null);
+			produto.setQuantidadeConfirmada(convidado.getQuantidade());
 			bancoProduto.saveProdutos(produto);
-			
+
+
 		}
-		
+
 		List<Convidado> listConvidado = litaConvidadoEvento(evento.getId());
 		listConvidado.add(convidado);
 		evento.setConvidados(listConvidado);
-		
+
 		convidado.setAtivo(true);
 		bancoConvidados.saveConvidado(convidado);
 		bancoEvento.saveEvento(evento);
-		
-		
+
 		mv.setViewName("util/confirmacaoPresenca");
-		
+
 		return mv;
-		
+
 	}
-	
 
 }

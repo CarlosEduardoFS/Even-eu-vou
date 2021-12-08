@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.even.model.Evento;
 import com.even.model.Produtos;
-import com.even.service.ServicoEvento;
 import com.even.service.ServicoProdutos;
 
 @Controller
@@ -17,9 +16,6 @@ public class ControllerProduto {
 
 	@Autowired
 	ServicoProdutos bancoProduto;
-
-	@Autowired
-	ServicoEvento bancoEvento;
 
 	public ModelAndView cadastroProduto(Integer id, Evento evento) {
 
@@ -35,7 +31,7 @@ public class ControllerProduto {
 
 		for (Produtos produ : bancoProduto.listarProdutos()) {
 			if (produ.getAtivo()) {
-				
+
 				if (produ.getEvento().getId() == produto.getEvento().getId()) {
 
 					list2.add(produ);
@@ -51,15 +47,13 @@ public class ControllerProduto {
 
 	}
 
-	public ModelAndView salvarProduto(Produtos produto) {
+	public ModelAndView salvarProduto(Produtos produto, List<Evento> list) {
 
 		ModelAndView mv = new ModelAndView();
 
 		mv.setViewName("usuario/produto/cadastroProduto");
-		
 		produto.setAtivo(true);
 
-		List<Evento> list = bancoEvento.listarEvento();
 		List<Produtos> produtos = new LinkedList<>();
 		List<Produtos> list2 = new LinkedList<>();
 
@@ -81,8 +75,8 @@ public class ControllerProduto {
 		produto2.setEvento(evento);
 
 		for (Produtos produ : bancoProduto.listarProdutos()) {
-			if (produ.getAtivo()){
-				
+			if (produ.getAtivo()) {
+
 				if (produ.getEvento().getId() == produto.getEvento().getId()) {
 
 					list2.add(produ);

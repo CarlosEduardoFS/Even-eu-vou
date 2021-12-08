@@ -9,29 +9,32 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Convidado {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	private String nome;
+	private Integer quantidade;
 	private Boolean ativo;
-	
+
 	@OneToOne
 	@JoinColumn
 	private Produtos produto;
-	
+
 	@OneToOne
 	@JoinColumn
 	private Evento evento;
 
-	public Convidado() {}
+	public Convidado() {
+	}
 
-	public Convidado(Integer id, String nome, Produtos produto, Evento evento, Boolean ativo) {
+	public Convidado(Integer id, String nome, Produtos produto, Evento evento, Boolean ativo, Integer quantidade) {
 		this.id = id;
 		this.nome = nome;
 		this.produto = produto;
 		this.evento = evento;
 		this.ativo = ativo;
+		this.quantidade = quantidade;
 	}
 
 	public Integer getId() {
@@ -64,8 +67,8 @@ public class Convidado {
 
 	public void setEvento(Evento evento) {
 		this.evento = evento;
-	}	
-	
+	}
+
 	public Boolean getAtivo() {
 		return ativo;
 	}
@@ -74,16 +77,24 @@ public class Convidado {
 		this.ativo = ativo;
 	}
 
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append(nome);
 		sb.append(evento.toString());
 		sb.append(produto.toString());
-		
+
 		return sb.toString();
-		
+
 	}
 
 }

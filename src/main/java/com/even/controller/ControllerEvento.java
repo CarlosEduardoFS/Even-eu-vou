@@ -15,24 +15,13 @@ import com.even.model.Evento;
 import com.even.model.InformacoesTecnicasEvento;
 import com.even.model.Produtos;
 import com.even.service.ServicoConta;
-import com.even.service.ServicoConvidado;
 import com.even.service.ServicoEvento;
-import com.even.service.ServicoProdutos;
 
 @Controller
 public class ControllerEvento {
 
 	@Autowired
 	ServicoEvento bancoEvento;
-
-	@Autowired
-	ServicoConta banco;
-
-	@Autowired
-	ServicoProdutos bancoProduto;
-
-	@Autowired
-	ServicoConvidado bancoConvidados;
 
 	public ModelAndView criarEvento(Conta organizador) {
 
@@ -48,17 +37,13 @@ public class ControllerEvento {
 
 	}
 
-	public ModelAndView salvarEvento(Evento evento, Conta contaLogada, List<Conta> list) {
+	public ModelAndView salvarEvento(Evento evento, Conta contaLogada, List<Conta> list, ServicoConta bancoConta) {
 
 		ModelAndView mv = new ModelAndView(); 
-
 		Random random = new Random();
 		StringBuilder sb = new StringBuilder();
-
 		mv.setViewName("redirecionamentos/redireInformacoes");
 		InformacoesTecnicasEvento informacoes = evento.getInformacoes();
-		
-		System.out.println(informacoes.getId());
 		
 		informacoes.setQuantidadeCadeiras();
 		informacoes.setQuantidadeMesas();
@@ -75,7 +60,6 @@ public class ControllerEvento {
 		}
 
 		evento.setChaveBusca(sb.toString());
-
 		bancoEvento.saveEvento(evento);
 
 		List<Evento> listEve = new LinkedList<>();
@@ -88,16 +72,13 @@ public class ControllerEvento {
 
 		listEve.add(evento);
 		conta.setEventos(listEve);
-
-		banco.saveConta(conta);
+		bancoConta.saveConta(conta);
 
 		if (evento.getConvidadosLevamProdutos() || evento.getPrecisaDeProdutos()) {
 
 			Evento evento2 = new Evento();
 			evento2.setId(evento.getId());
-
 			mv.addObject("evento", evento2);
-
 			return mv;
 		}
 
@@ -169,11 +150,11 @@ public class ControllerEvento {
 
 	}
 
-	public List<Produtos> litaProdutosEvento(Integer id) {
+	public List<Produtos> litaProdutosEvento(Integer id, List<Produtos> produtos) {
 
 		List<Produtos> lista2 = new LinkedList<>();
 		
-		for (Produtos produ : bancoProduto.listarProdutos()) {
+		for (Produtos produ : produtos) {
 			
 			if (produ.getAtivo()) {
 				
@@ -187,24 +168,23 @@ public class ControllerEvento {
 		return lista2;
 	}
 
-	public List<Convidado> litaConvidadoEvento(Integer id) {
+	public List<Convidado> litaConvidadoEvento(Integer id,List<Convidado> convidados) {
 
 		List<Convidado> lista2 = new LinkedList<>();
 
-		for (Convidado convidado : bancoConvidados.listarConvidado()) {
+		for (Convidado convidado : convidados) {
 			if (convidado.getAtivo()) {
 				if (convidado.getEvento().getId() == id) {
 
 					lista2.add(convidado);
 				}
-				
 			}
 		}
 
 		return lista2;
 	}
 
-	public ModelAndView paginaEvento(Integer id, Conta contaLogada, List<Produtos> listProdutos) {
+	public ModelAndView paginaEvento(Integer id, Conta contaLogada, List<Produtos> listProdutos, List<Convidado> convidados) {
 
 		ModelAndView mv = new ModelAndView();
 
@@ -214,7 +194,7 @@ public class ControllerEvento {
 
 		if (contaLogada.getId() == evento.getOrganizador().getId()) {
 
-			List<Convidado> listConvidados = litaConvidadoEvento(evento.getId());
+			List<Convidado> listConvidados = litaConvidadoEvento(evento.getId(), convidados);
 
 			InformacoesTecnicasEvento informacoes = evento.getInformacoes();
 

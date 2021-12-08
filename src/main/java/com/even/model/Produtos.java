@@ -24,6 +24,7 @@ public class Produtos {
 	
 	public Produtos() {
 		evento = new Evento();
+		quantidadeConfirmada = 0;
 	}
 	
 	public Produtos(Integer id, String nomeProduto, Integer quantidade, Integer quantidadeConfirmada,Evento evento,Boolean ativo) {
@@ -64,7 +65,7 @@ public class Produtos {
 	}
 
 	public void setQuantidadeConfirmada(Integer quantidadeConfirmada) {
-		this.quantidadeConfirmada = quantidadeConfirmada;
+		this.quantidadeConfirmada += quantidadeConfirmada;
 	}
 	
 	public boolean atingiuLimitie() {

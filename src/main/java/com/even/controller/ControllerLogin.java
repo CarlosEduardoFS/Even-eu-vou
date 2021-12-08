@@ -5,10 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.even.model.Conta;
@@ -17,111 +13,100 @@ import com.even.service.ServicoConta;
 import com.even.service.ServicoLogin;
 
 @Controller
-@RequestMapping
 public class ControllerLogin {
 
 	@Autowired
-	ServicoLogin banco;
-	
-	@Autowired
-	ServicoConta bancoConta;
-	
-	@PostMapping("/salvarLogin")
-	public String salvarLogin(@ModelAttribute Login login) {
-		
-		banco.saveLogin(login);
-		
+	ServicoLogin bancoLogin;
+
+	public String salvarLogin(Login login) {
+
+		bancoLogin.saveLogin(login);
 		return "conta/login";
 	}
-	
-	@GetMapping("/login")
+
 	public ModelAndView Login() {
-		
+
 		ModelAndView mv = new ModelAndView("conta/login");
 		Login login = new Login();
 		mv.addObject("login", login);
-		
 		return mv;
-		
+
 	}
-	
-	@PostMapping("/verificaConta")
-	public ModelAndView verificaConta(@ModelAttribute Login login) {
-		
-		List<Login> logins = banco.listarLogin();
+
+	public ModelAndView verificaConta(Login login, ServicoConta bancoConta) {
+
+		List<Login> logins = bancoLogin.listarLogin();
 		Collections.sort(logins);
 		int posicao = Collections.binarySearch(logins, login, null);
-		
+
 		if (posicao >= 0) {
-			
+
 			Login loginBanco = logins.get(posicao);
-			
+
 			if (isLogin(loginBanco, login)) {
-				Conta contaLog = contaLogada(loginBanco.getId());
-				
+				Conta contaLog = contaLogada(loginBanco.getId(), bancoConta);
+
 				ModelAndView mv = new ModelAndView("redirecionamentos/redireTelaUsuario");
 				mv.addObject("conta", contaLog);
-						
+
 				return mv;
-				
-			}	
+
+			}
 		}
-		
+
 		ModelAndView mv = new ModelAndView("redirect:/login");
 		return mv;
 	}
-	
-	private Conta contaLogada(int id) {
-		
+
+	private Conta contaLogada(int id, ServicoConta bancoConta) {
+
 		Conta conta = new Conta();
-		
+
 		for (Conta conta2 : bancoConta.listarConta()) {
-			
+
 			Login login2 = conta2.getLogin();
-			
+
 			if (login2.getId() == id) {
-				
+
 				conta = conta2;
-				
+
 			}
 		}
-		
+
 		return conta;
-		
+
 	}
-	
+
 	private boolean isLogin(Login loginBanco, Login loginInformado) {
-		
+
 		if (verificaEmail(loginBanco, loginInformado) && loginBanco.getSenha().equals(loginInformado.getSenha()))
 			return true;
-		
+
 		return false;
-		
+
 	}
-	
-	@GetMapping("/atualizarSenha")
+
 	public ModelAndView atualizarSenha() {
-		
+
 		ModelAndView mv = new ModelAndView("conta/buscaEmail");
 		Login login = new Login();
 		mv.addObject("login", login);
-		
+
 		return mv;
 	}
-	
-	@PostMapping("/verificaEmail")
-	public ModelAndView atualizarSenha(@ModelAttribute Login login) {
-		
-		List<Login> logins = banco.listarLogin();
-		
+
+	public ModelAndView atualizarSenha(Login login) {
+
+		List<Login> logins = bancoLogin.listarLogin();
+
 		Collections.sort(logins);
-		
+
 		int posicao = Collections.binarySearch(logins, login, null);
-		
+
 		if (posicao >= 0) {
-			
+
 			Login loginBanco = logins.get(posicao);
-			
+
 			if (verificaEmail(loginBanco, login)) {
 				ModelAndView mv = new ModelAndView("conta/altSenha");
 				login.setId(loginBanco.getId());
@@ -131,20 +116,18 @@ public class ControllerLogin {
 
 		}
 		ModelAndView mv = new ModelAndView("util/atualizarSenha");
-		
-		
+
 		return mv;
 	}
 
-	private boolean verificaEmail(Login loginBanco,Login loginInformado) {
-		
+	private boolean verificaEmail(Login loginBanco, Login loginInformado) {
+
 		if (loginBanco.getEmail().equals(loginInformado.getEmail())) {
 			return true;
-			
+
 		}
-		
+
 		return false;
 	}
-	
-	
+
 }
