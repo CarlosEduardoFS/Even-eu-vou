@@ -1,4 +1,4 @@
-package com.even.service;
+package com.even.model.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.even.interfaceService.InterfaceProdutos;
-import com.even.model.Produtos;
+import com.even.model.domain.Product;
 import com.even.ropository.RepositorioProdutos;
 
 @Service
@@ -16,19 +16,19 @@ public class ServicoProdutos implements InterfaceProdutos{
 	RepositorioProdutos bancoDados;
 	
 	@Override
-	public void saveProdutos(Produtos produtos) {
+	public void saveProdutos(Product produtos) {
 		bancoDados.save(produtos);
 		
 	}
 
 	@Override
-	public List<Produtos> listarProdutos() {
+	public List<Product> listarProdutos() {
 		
-		return (List<Produtos>) bancoDados.findAll();
+		return (List<Product>) bancoDados.findAll();
 	}
 
 	@Override
-	public void atualizarProdutos(Produtos produtos) {
+	public void atualizarProdutos(Product produtos) {
 		bancoDados.save(produtos);
 		
 	}

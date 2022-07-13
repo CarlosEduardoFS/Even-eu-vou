@@ -2,7 +2,7 @@ package com.even.interfaceService;
 
 import java.util.List;
 
-import com.even.model.Login;
+import com.even.model.domain.Login;
 
 public interface InterfaceLogin {
 	

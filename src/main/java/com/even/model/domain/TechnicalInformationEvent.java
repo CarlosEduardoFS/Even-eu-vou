@@ -1,4 +1,4 @@
-package com.even.model;
+package com.even.model.domain;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class InformacoesTecnicasEvento {
+public class TechnicalInformationEvent {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -24,18 +24,18 @@ public class InformacoesTecnicasEvento {
 	
 	@OneToOne
 	@JoinColumn
-	private Evento evento;
+	private Event evento;
 	
 	@OneToMany (cascade = CascadeType.PERSIST)
 	@JoinColumn
-	List<Produtos> produtos;
+	List<Product> produtos;
 	
-	public InformacoesTecnicasEvento() {
+	public TechnicalInformationEvent() {
 		produtos = new LinkedList<>();
 	}
 	
-	public InformacoesTecnicasEvento(Integer id, Long quantidadePessoas, Long quantidadeMesas,
-			Long quantidadeCadeiras, List<Produtos> produtos,Evento evento ) {
+	public TechnicalInformationEvent(Integer id, Long quantidadePessoas, Long quantidadeMesas,
+			Long quantidadeCadeiras, List<Product> produtos,Event evento ) {
 		this.id = id;
 		this.quantidadePessoas = quantidadePessoas;
 		this.quantidadeMesas = quantidadeMesas;
@@ -76,19 +76,19 @@ public class InformacoesTecnicasEvento {
 		this.quantidadeCadeiras = quantidadePessoas + 10;
 	}
 
-	public List<Produtos> getProdutos() {
+	public List<Product> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(List<Produtos> produtos) {
+	public void setProdutos(List<Product> produtos) {
 		this.produtos = produtos;
 	}
 	
-	public Evento getEvento() {
+	public Event getEvento() {
 		return evento;
 	}
 
-	public void setEvento(Evento evento) {
+	public void setEvento(Event evento) {
 		this.evento = evento;
 	}
 

@@ -1,4 +1,4 @@
-package com.even.service;
+package com.even.model.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.even.interfaceService.InterfaceInformacoesTecnicas;
-import com.even.model.InformacoesTecnicasEvento;
+import com.even.model.domain.TechnicalInformationEvent;
 import com.even.ropository.RepositorioInformacoesTecnicas;
 
 @Service
@@ -16,20 +16,20 @@ public class ServicoInformacoesTecnicas implements InterfaceInformacoesTecnicas{
 	RepositorioInformacoesTecnicas bancoDados;
 	
 	@Override
-	public void saveInformacoes(InformacoesTecnicasEvento informacoes) {
+	public void saveInformacoes(TechnicalInformationEvent informacoes) {
 		
 		bancoDados.save(informacoes);
 		
 	}
 
 	@Override
-	public List<InformacoesTecnicasEvento> listarInformacoes() {
+	public List<TechnicalInformationEvent> listarInformacoes() {
 		
-		return (List<InformacoesTecnicasEvento>) bancoDados.findAll();
+		return (List<TechnicalInformationEvent>) bancoDados.findAll();
 	}
 
 	@Override
-	public void atualizarInformacoes(InformacoesTecnicasEvento informacoes) {
+	public void atualizarInformacoes(TechnicalInformationEvent informacoes) {
 		bancoDados.save(informacoes);
 		
 	}

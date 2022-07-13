@@ -1,4 +1,4 @@
-package com.even.controller;
+package com.even.resources;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.even.model.Evento;
-import com.even.model.Produtos;
-import com.even.service.ServicoProdutos;
+import com.even.model.domain.Event;
+import com.even.model.domain.Product;
+import com.even.model.service.ServicoProdutos;
 
 @Controller
 public class ControllerProduto {
@@ -17,19 +17,19 @@ public class ControllerProduto {
 	@Autowired
 	ServicoProdutos bancoProduto;
 
-	public ModelAndView cadastroProduto(Integer id, Evento evento) {
+	public ModelAndView cadastroProduto(Integer id, Event evento) {
 
 		ModelAndView mv = new ModelAndView();
 
 		mv.setViewName("usuario/produto/cadastroProduto");
 
-		List<Produtos> list2 = new LinkedList<>();
+		List<Product> list2 = new LinkedList<>();
 
-		Produtos produto = new Produtos();
+		Product produto = new Product();
 
 		produto.setEvento(evento);
 
-		for (Produtos produ : bancoProduto.listarProdutos()) {
+		for (Product produ : bancoProduto.listarProdutos()) {
 			if (produ.getAtivo()) {
 
 				if (produ.getEvento().getId() == produto.getEvento().getId()) {
@@ -47,17 +47,17 @@ public class ControllerProduto {
 
 	}
 
-	public ModelAndView salvarProduto(Produtos produto, List<Evento> list) {
+	public ModelAndView salvarProduto(Product produto, List<Event> list) {
 
 		ModelAndView mv = new ModelAndView();
 
 		mv.setViewName("usuario/produto/cadastroProduto");
 		produto.setAtivo(true);
 
-		List<Produtos> produtos = new LinkedList<>();
-		List<Produtos> list2 = new LinkedList<>();
+		List<Product> produtos = new LinkedList<>();
+		List<Product> list2 = new LinkedList<>();
 
-		for (Produtos produtos2 : bancoProduto.listarProdutos()) {
+		for (Product produtos2 : bancoProduto.listarProdutos()) {
 
 			if ((produto.getEvento().getId() == produtos2.getEvento().getId()) && (produtos2 != null)) {
 				produtos.add(produtos2);
@@ -70,11 +70,11 @@ public class ControllerProduto {
 
 		bancoProduto.saveProdutos(produto);
 
-		Produtos produto2 = new Produtos();
-		Evento evento = list.stream().filter(x -> x.getId() == produto.getEvento().getId()).findFirst().orElse(null);
+		Product produto2 = new Product();
+		Event evento = list.stream().filter(x -> x.getId() == produto.getEvento().getId()).findFirst().orElse(null);
 		produto2.setEvento(evento);
 
-		for (Produtos produ : bancoProduto.listarProdutos()) {
+		for (Product produ : bancoProduto.listarProdutos()) {
 			if (produ.getAtivo()) {
 
 				if (produ.getEvento().getId() == produto.getEvento().getId()) {

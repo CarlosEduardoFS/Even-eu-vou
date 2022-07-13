@@ -1,4 +1,4 @@
-package com.even.service;
+package com.even.model.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.even.interfaceService.InterfaceLogin;
-import com.even.model.Login;
+import com.even.model.domain.Login;
 import com.even.ropository.RepositorioLogin;
 
 @Service

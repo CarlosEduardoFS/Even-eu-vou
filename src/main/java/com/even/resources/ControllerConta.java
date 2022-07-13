@@ -1,12 +1,12 @@
-package com.even.controller;
+package com.even.resources;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.even.model.Conta;
-import com.even.service.ServicoConta;
+import com.even.model.domain.Account;
+import com.even.model.service.ServicoConta;
 
 @Controller
 public class ControllerConta {
@@ -17,14 +17,14 @@ public class ControllerConta {
 	public ModelAndView cadastro() {
 		
 		ModelAndView mv = new ModelAndView("conta/cadastro");
-		Conta conta = new Conta();
+		Account conta = new Account();
 		mv.addObject("conta", conta);
 		
 		return mv;
 		
 	}
 	
-	public String salvarConta (Conta conta) {
+	public String salvarConta (Account conta) {
 		
 		banco.saveConta(conta);
 		

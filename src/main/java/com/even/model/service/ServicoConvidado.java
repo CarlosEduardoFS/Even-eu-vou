@@ -1,4 +1,4 @@
-package com.even.service;
+package com.even.model.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.even.interfaceService.InterfaceConvidado;
-import com.even.model.Convidado;
+import com.even.model.domain.Guest;
 import com.even.ropository.RepositorioConvidados;
 
 @Service
@@ -16,20 +16,20 @@ public class ServicoConvidado implements InterfaceConvidado{
 	RepositorioConvidados banco;
 	
 	@Override
-	public void saveConvidado(Convidado convidado) {
+	public void saveConvidado(Guest convidado) {
 		
 		banco.save(convidado);
 		
 	}
 
 	@Override
-	public List<Convidado> listarConvidado() {
+	public List<Guest> listarConvidado() {
 		
-		return (List<Convidado>) banco.findAll();
+		return (List<Guest>) banco.findAll();
 	}
 
 	@Override
-	public void updateConvidado(Convidado convidado) {
+	public void updateConvidado(Guest convidado) {
 		banco.save(convidado);
 		
 	}

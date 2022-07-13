@@ -1,4 +1,4 @@
-package com.even.model;
+package com.even.model.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

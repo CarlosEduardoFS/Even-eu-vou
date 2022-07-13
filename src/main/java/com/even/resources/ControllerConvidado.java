@@ -1,4 +1,4 @@
-package com.even.controller;
+package com.even.resources;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.even.model.Convidado;
-import com.even.model.Evento;
-import com.even.model.Produtos;
-import com.even.service.ServicoConvidado;
-import com.even.service.ServicoEvento;
-import com.even.service.ServicoProdutos;
-import com.even.utilizatiros.Texto;
+import com.even.model.domain.Guest;
+import com.even.model.domain.Event;
+import com.even.model.domain.Product;
+import com.even.model.service.ServicoConvidado;
+import com.even.model.service.ServicoEvento;
+import com.even.model.service.ServicoProdutos;
+import com.even.resources.utilities.Text;
 
 @Controller
 public class ControllerConvidado {
@@ -21,11 +21,11 @@ public class ControllerConvidado {
 	@Autowired
 	ServicoConvidado bancoConvidados;
 
-	public List<Produtos> litaProdutosEventoAtivos(Integer id, List<Produtos> produtos) {
+	public List<Product> litaProdutosEventoAtivos(Integer id, List<Product> produtos) {
 
-		List<Produtos> lista2 = new LinkedList<>();
+		List<Product> lista2 = new LinkedList<>();
 
-		for (Produtos produ : produtos) {
+		for (Product produ : produtos) {
 
 			if ((produ.getEvento().getId() == id) && (produ.getQuantidade() != null)
 					&& (produ.getQuantidadeConfirmada() != null)) {
@@ -40,25 +40,25 @@ public class ControllerConvidado {
 		return lista2;
 	}
 
-	public ModelAndView buscarEvento(Texto chave, List<Produtos> listProduto, ServicoEvento bancoEvento) {
+	public ModelAndView buscarEvento(Text chave, List<Product> listProduto, ServicoEvento bancoEvento) {
 
 		ModelAndView mv = new ModelAndView();
-		List<Evento> eventos = bancoEvento.listarEvento();
+		List<Event> eventos = bancoEvento.listarEvento();
 
-		Evento evento = eventos.stream().filter(x -> x.getChaveBusca().equals(chave.getTexto())).findFirst()
+		Event evento = eventos.stream().filter(x -> x.getKeySearch().equals(chave.getText())).findFirst()
 				.orElse(null);
 
 		if (evento != null) {
 
-			List<Produtos> produtos = litaProdutosEventoAtivos(evento.getId(), listProduto);
-			Convidado convidado = new Convidado();
+			List<Product> produtos = litaProdutosEventoAtivos(evento.getId(), listProduto);
+			Guest convidado = new Guest();
 
 			convidado.setEvento(evento);
 
 			mv.addObject("produtos", produtos);
 			mv.addObject("convidado", convidado);
 
-			if (evento.getConvidadosLevamProdutos()) {
+			if (evento.getGuestsTakeProducts()) {
 
 				mv.setViewName("usuario/presenca");
 				return mv;
@@ -74,11 +74,11 @@ public class ControllerConvidado {
 
 	}
 
-	public List<Convidado> litaConvidadoEvento(Integer id) {
+	public List<Guest> litaConvidadoEvento(Integer id) {
 
-		List<Convidado> lista2 = new LinkedList<>();
+		List<Guest> lista2 = new LinkedList<>();
 
-		for (Convidado convidado : bancoConvidados.listarConvidado()) {
+		for (Guest convidado : bancoConvidados.listarConvidado()) {
 
 			if (convidado.getAtivo()) {
 				if ((convidado.getEvento() != null) && (convidado.getEvento().getId() == id)) {
@@ -91,17 +91,17 @@ public class ControllerConvidado {
 		return lista2;
 	}
 
-	public ModelAndView cadastrarConvidade(Convidado convidado, ServicoProdutos bancoProduto,
+	public ModelAndView cadastrarConvidade(Guest convidado, ServicoProdutos bancoProduto,
 			ServicoEvento bancoEvento) {
 
 		ModelAndView mv = new ModelAndView();
-		List<Evento> eventos = bancoEvento.listarEvento();
-		Evento evento = eventos.stream().filter(x -> x.getId() == convidado.getEvento().getId()).findFirst()
+		List<Event> eventos = bancoEvento.listarEvento();
+		Event evento = eventos.stream().filter(x -> x.getId() == convidado.getEvento().getId()).findFirst()
 				.orElse(null);
 
 		if (convidado.getProduto() != null) {
-			List<Produtos> produtos = bancoProduto.listarProdutos();
-			Produtos produto = produtos.stream().filter(x -> x.getId() == convidado.getProduto().getId()).findFirst()
+			List<Product> produtos = bancoProduto.listarProdutos();
+			Product produto = produtos.stream().filter(x -> x.getId() == convidado.getProduto().getId()).findFirst()
 					.orElse(null);
 			produto.setQuantidadeConfirmada(convidado.getQuantidade());
 			bancoProduto.saveProdutos(produto);
@@ -109,9 +109,9 @@ public class ControllerConvidado {
 
 		}
 
-		List<Convidado> listConvidado = litaConvidadoEvento(evento.getId());
+		List<Guest> listConvidado = litaConvidadoEvento(evento.getId());
 		listConvidado.add(convidado);
-		evento.setConvidados(listConvidado);
+		evento.setGuests(listConvidado);
 
 		convidado.setAtivo(true);
 		bancoConvidados.saveConvidado(convidado);

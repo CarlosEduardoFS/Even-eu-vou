@@ -1,4 +1,4 @@
-package com.even.service;
+package com.even.model.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.even.interfaceService.InterfaceEvento;
-import com.even.model.Evento;
+import com.even.model.domain.Event;
 import com.even.ropository.RepositorioEvento;
 
 @Service
@@ -16,20 +16,20 @@ public class ServicoEvento implements InterfaceEvento {
 	RepositorioEvento bancoDados;
 	
 	@Override
-	public void saveEvento(Evento evento) {
+	public void saveEvento(Event evento) {
 		
 		bancoDados.save(evento);
 		
 	}
 
 	@Override
-	public List<Evento> listarEvento() {
+	public List<Event> listarEvento() {
 		
-		return (List<Evento>) bancoDados.findAll();
+		return (List<Event>) bancoDados.findAll();
 	}
 
 	@Override
-	public void atualizarEvento(Evento evento) {
+	public void atualizarEvento(Event evento) {
 		bancoDados.save(evento);
 		
 	}

@@ -1,4 +1,4 @@
-package com.even.controller;
+package com.even.resources;
 
 import java.util.Collections;
 import java.util.List;
@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.even.model.Conta;
-import com.even.model.Login;
-import com.even.service.ServicoConta;
-import com.even.service.ServicoLogin;
+import com.even.model.domain.Account;
+import com.even.model.domain.Login;
+import com.even.model.service.ServicoConta;
+import com.even.model.service.ServicoLogin;
 
 @Controller
 public class ControllerLogin {
@@ -44,7 +44,7 @@ public class ControllerLogin {
 			Login loginBanco = logins.get(posicao);
 
 			if (isLogin(loginBanco, login)) {
-				Conta contaLog = contaLogada(loginBanco.getId(), bancoConta);
+				Account contaLog = contaLogada(loginBanco.getId(), bancoConta);
 
 				ModelAndView mv = new ModelAndView("redirecionamentos/redireTelaUsuario");
 				mv.addObject("conta", contaLog);
@@ -58,11 +58,11 @@ public class ControllerLogin {
 		return mv;
 	}
 
-	private Conta contaLogada(int id, ServicoConta bancoConta) {
+	private Account contaLogada(int id, ServicoConta bancoConta) {
 
-		Conta conta = new Conta();
+		Account conta = new Account();
 
-		for (Conta conta2 : bancoConta.listarConta()) {
+		for (Account conta2 : bancoConta.listarConta()) {
 
 			Login login2 = conta2.getLogin();
 

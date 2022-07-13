@@ -1,4 +1,4 @@
-package com.even.controller;
+package com.even.resources;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.even.model.Conta;
-import com.even.model.Convidado;
-import com.even.model.Evento;
-import com.even.model.Login;
-import com.even.model.Produtos;
-import com.even.service.ServicoConta;
-import com.even.service.ServicoConvidado;
-import com.even.service.ServicoEvento;
-import com.even.service.ServicoLogin;
-import com.even.service.ServicoProdutos;
-import com.even.utilizatiros.Texto;
+import com.even.model.domain.Account;
+import com.even.model.domain.Guest;
+import com.even.model.domain.Event;
+import com.even.model.domain.Login;
+import com.even.model.domain.Product;
+import com.even.model.service.ServicoConta;
+import com.even.model.service.ServicoConvidado;
+import com.even.model.service.ServicoEvento;
+import com.even.model.service.ServicoLogin;
+import com.even.model.service.ServicoProdutos;
+import com.even.resources.utilities.Text;
 
 @Controller
 public class ControllerCentral {
 
-	Conta contaLogada;
+	Account contaLogada;
 
 	@Autowired
 	ServicoConta bancoConta;
@@ -62,7 +62,7 @@ public class ControllerCentral {
 	public ModelAndView pesuisaConta() {
 		ModelAndView mv = new ModelAndView("usuario/evento/pesquisarEvento");
 
-		Texto chave = new Texto();
+		Text chave = new Text();
 
 		mv.addObject("chave", chave);
 
@@ -85,7 +85,7 @@ public class ControllerCentral {
 	}
 
 	@PostMapping("/salvarConta")
-	public String salvarConta(@ModelAttribute Conta conta) {
+	public String salvarConta(@ModelAttribute Account conta) {
 
 		List<Login> logins = bancoLogin.listarLogin();
 		Collections.sort(logins);
@@ -103,11 +103,11 @@ public class ControllerCentral {
 	@GetMapping("/telaUsuario/{id}")
 	public String telaUsuario(@PathVariable("id") Integer id) {
 
-		Conta conta = new Conta();
-		List<Conta> list = bancoConta.listarConta();
+		Account conta = new Account();
+		List<Account> list = bancoConta.listarConta();
 		conta = list.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
 
-		contaLogada = new Conta();
+		contaLogada = new Account();
 		contaLogada = conta;
 
 		if (contaLogada != null) {
@@ -147,12 +147,12 @@ public class ControllerCentral {
 	}
 
 	@PostMapping("/cadastroEvento")
-	public ModelAndView salvarEvento(@ModelAttribute Evento evento) {
+	public ModelAndView salvarEvento(@ModelAttribute Event evento) {
 
 		ModelAndView mv = new ModelAndView();
 
 		if (contaLogada != null) {
-			List<Conta> list = bancoConta.listarConta();
+			List<Account> list = bancoConta.listarConta();
 			mv = controlEvento.salvarEvento(evento, contaLogada, list, bancoConta);
 			return mv;
 		} else {
@@ -182,10 +182,10 @@ public class ControllerCentral {
 
 		if (contaLogada != null) {
 
-			List<Evento> eve = bancoEvento.listarEvento();
-			Evento evento = eve.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+			List<Event> eve = bancoEvento.listarEvento();
+			Event evento = eve.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
 
-			if (contaLogada.getId() == evento.getOrganizador().getId()) {
+			if (contaLogada.getId() == evento.getOrganizer().getId()) {
 				excluiConvidadosEProdutos(id);
 			}
 
@@ -200,7 +200,7 @@ public class ControllerCentral {
 
 	private void excluiConvidadosEProdutos(Integer id) {
 
-		for (Produtos produto : bancoProduto.listarProdutos()) {
+		for (Product produto : bancoProduto.listarProdutos()) {
 
 			if (produto.getEvento().getId() == id) {
 
@@ -210,7 +210,7 @@ public class ControllerCentral {
 
 			}
 		}
-		for (Convidado convidado : bancoConvidado.listarConvidado()) {
+		for (Guest convidado : bancoConvidado.listarConvidado()) {
 
 			if (convidado.getEvento().getId() == id) {
 
@@ -240,7 +240,7 @@ public class ControllerCentral {
 
 		ModelAndView mv = new ModelAndView();
 
-		List<Produtos> produtos = controlEvento.litaProdutosEvento(id, bancoProduto.listarProdutos());
+		List<Product> produtos = controlEvento.litaProdutosEvento(id, bancoProduto.listarProdutos());
 
 		if (contaLogada != null) {
 			mv = controlEvento.paginaEvento(id, contaLogada, produtos, bancoConvidado.listarConvidado());
@@ -257,8 +257,8 @@ public class ControllerCentral {
 		ModelAndView mv = new ModelAndView();
 
 		if (contaLogada != null) {
-			List<Evento> list = bancoEvento.listarEvento();
-			Evento evento = list.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+			List<Event> list = bancoEvento.listarEvento();
+			Event evento = list.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
 			mv = controlProduto.cadastroProduto(id, evento);
 			return mv;
 		} else {
@@ -269,7 +269,7 @@ public class ControllerCentral {
 	}
 
 	@PostMapping("/salvarProduto")
-	public ModelAndView salvarProduto(@ModelAttribute Produtos produto) {
+	public ModelAndView salvarProduto(@ModelAttribute Product produto) {
 
 		ModelAndView mv = new ModelAndView();
 
@@ -283,14 +283,14 @@ public class ControllerCentral {
 	}
 
 	@PostMapping("/buscarEventoConvidado")
-	public ModelAndView buscarEvento(@ModelAttribute Texto chave) {
+	public ModelAndView buscarEvento(@ModelAttribute Text chave) {
 
 		return controlConvidado.buscarEvento(chave, bancoProduto.listarProdutos(), bancoEvento);
 
 	}
 
 	@PostMapping("/salvarConvidado")
-	public ModelAndView cadastrarConvidade(@ModelAttribute Convidado convidado) {
+	public ModelAndView cadastrarConvidade(@ModelAttribute Guest convidado) {
 
 		return controlConvidado.cadastrarConvidade(convidado, bancoProduto, bancoEvento);
 	}

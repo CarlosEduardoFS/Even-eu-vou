@@ -1,4 +1,4 @@
-package com.even.model;
+package com.even.model.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Convidado {
+public class Guest {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,16 +19,16 @@ public class Convidado {
 
 	@OneToOne
 	@JoinColumn
-	private Produtos produto;
+	private Product produto;
 
 	@OneToOne
 	@JoinColumn
-	private Evento evento;
+	private Event evento;
 
-	public Convidado() {
+	public Guest() {
 	}
 
-	public Convidado(Integer id, String nome, Produtos produto, Evento evento, Boolean ativo, Integer quantidade) {
+	public Guest(Integer id, String nome, Product produto, Event evento, Boolean ativo, Integer quantidade) {
 		this.id = id;
 		this.nome = nome;
 		this.produto = produto;
@@ -53,19 +53,19 @@ public class Convidado {
 		this.nome = nome;
 	}
 
-	public Produtos getProduto() {
+	public Product getProduto() {
 		return produto;
 	}
 
-	public void setProduto(Produtos produto) {
+	public void setProduto(Product produto) {
 		this.produto = produto;
 	}
 
-	public Evento getEvento() {
+	public Event getEvento() {
 		return evento;
 	}
 
-	public void setEvento(Evento evento) {
+	public void setEvento(Event evento) {
 		this.evento = evento;
 	}
 

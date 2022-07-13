@@ -2,13 +2,13 @@ package com.even.interfaceService;
 
 import java.util.List;
 
-import com.even.model.InformacoesTecnicasEvento;
+import com.even.model.domain.TechnicalInformationEvent;
 
 
 public interface InterfaceInformacoesTecnicas {
 	
-	public void saveInformacoes(InformacoesTecnicasEvento informacoes);
-	public List<InformacoesTecnicasEvento> listarInformacoes();
-	public void atualizarInformacoes(InformacoesTecnicasEvento informacoes);
+	public void saveInformacoes(TechnicalInformationEvent informacoes);
+	public List<TechnicalInformationEvent> listarInformacoes();
+	public void atualizarInformacoes(TechnicalInformationEvent informacoes);
 
 }
